@@ -297,7 +297,7 @@ export default function App() {
       </header>
 
       {/* --- PREMIUM LIGHT-HERO SECTION --- */}
-      <section className="relative min-h-screen flex items-center bg-white pt-24 overflow-hidden">
+      <section className="relative min-h-screen flex items-center bg-white pt-28 overflow-hidden">
         {/* Abstract Fine Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000003_1px,transparent_1px),linear-gradient(to_bottom,#00000003_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#E31837]/3 rounded-full blur-[150px] pointer-events-none"></div>
