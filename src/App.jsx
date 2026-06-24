@@ -180,7 +180,7 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
       </div>
 
       <button type="submit" className="w-full mt-8 bg-[#E31837] hover:bg-[#c6112d] active:scale-[0.98] text-white font-extrabold py-4 px-6 transition-all duration-300 flex items-center justify-between group rounded-lg shadow-lg shadow-red-500/10">
-        <span className="tracking-widest uppercase text-xs">Verify & Register Prospectus</span>
+        <span className="tracking-widest uppercase text-xs">Become an Indus TMT Dealer Now</span>
         <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
       </button>
 
@@ -274,7 +274,7 @@ export default function App() {
             </a>
             <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} className="text-xs font-black uppercase tracking-widest text-slate-700 hover:text-slate-900 transition-colors cursor-pointer">FAQS</a>
             <button onClick={scrollToForm} className="bg-[#E31837] hover:bg-red-700 text-white text-xs font-black uppercase tracking-widest px-6 py-2.5 transition-all duration-300 rounded shadow-md ml-2 cursor-pointer">
-              Request Prospectus
+              Request Partnership
             </button>
           </nav>
 
@@ -430,7 +430,7 @@ export default function App() {
 
                 <div className="mt-8 pt-6 border-t border-slate-200 text-center">
                   <button onClick={scrollToForm} className="w-full bg-slate-900 hover:bg-[#E31837] text-white font-black uppercase tracking-widest text-xs py-3.5 px-6 transition-all rounded shadow">
-                    Check Availability In {selectedTerritoryState}
+                   Reserve Your Slot In {selectedTerritoryState} Today
                   </button>
                 </div>
               </div>
@@ -458,23 +458,12 @@ export default function App() {
             <div className="flex flex-col">
               <div className="inline-flex items-center gap-2 mb-4 self-start">
                 <div className="w-6 h-[1px] bg-[#E31837]"></div>
-                <span className="text-[#E31837] text-xs font-bold tracking-[0.2em] uppercase">Architectural Legacy</span>
+                <span className="text-[#E31837] text-xs font-bold tracking-[0.2em] uppercase">Sucessfull Since From 1996</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-6">Manufacturing Masterclass</h2>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-6">About Us</h2>
               <p className="text-slate-500 text-lg leading-relaxed font-light mb-8">
-                For over three decades, Indus TMT has set the gold standard in premium structural engineering. Our state-of-the-art mills utilize premier thermomechanical treating technology to build ductile steel cores that safeguard massive commercial developments, bridges, and highways.
+                We began our journey in 1996 with a vision to convert the blueprint of dreams into structures. Our state-of-art manufacturing unit at Hosur near Attibelle(Kn) well equipped with advanced computer controlled, mechanical & automated machinery combined with our innovations, commitment & reliability has delivered consistent & best quality steel much above BIS. We have been considered as No.1 brand in Karnataka by Individual building owners, bar benders, mason, contractors, structural engineers, architects & dealers as they are very happy with INDUS 555-D TMT.
               </p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
-                <div className="p-5 bg-white border border-slate-200/60 rounded-lg shadow-sm">
-                  <h4 className="font-bold text-slate-900 mb-2">Automated Calibration</h4>
-                  <p className="text-xs text-slate-500">Every millimeter of output is laserscanned and verified for consistent rib profiles.</p>
-                </div>
-                <div className="p-5 bg-white border border-slate-200/60 rounded-lg shadow-sm">
-                  <h4 className="font-bold text-slate-900 mb-2">Bespoke Metallurgy</h4>
-                  <p className="text-xs text-slate-500">Enhanced high yield ductility prevents structural snap fatigue during earth tremors.</p>
-                </div>
-              </div>
 
               <a href="Indus-Catalog.pdf" download className="flex items-center text-slate-900 font-bold tracking-widest text-xs uppercase hover:text-[#E31837] transition-colors group self-start">
                 <Download className="w-4 h-4 mr-2" /> Download Corporate Profile Document <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
