@@ -36,13 +36,15 @@ const TERRITORY_REGIONS = {
     { city: "Bengaluru Metropolitan Region", status: "Active Expansion" },
     { city: "Mysuru & South Karnataka", status: "Available" },
     { city: "Hubli-Dharwad & North Karnataka", status: "Available" },
-    { city: "Mangaluru & Coastal Zone", status: "Active Search" }
+    { city: "Mangaluru & Coastal Zone", status: "Active Search" },
+    { city: "Other Region", status: "Available" }
   ],
   "Tamil Nadu": [
-    { city: "Chennai Metro & Suburbs", status: "Active Expansion" },
-    { city: "Coimbatore Industrial Belt", status: "Available" },
-    { city: "Madurai Hub", status: "Active Search" },
-    { city: "Salem & Trichy Regions", status: "Available" }
+    { city: "Chennai", status: "Active Expansion" },
+    { city: "Hosur", status: "Active Expansion" },
+    { city: "Salem", status: "Available" },
+    { city: "Dharmapuri", status: "Available" },
+    { city: "krishnagiri", status: "Available" }
   ]
 };
 
@@ -255,13 +257,8 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center">
           
           {/* Logo Aligned Left */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#E31837] flex items-center justify-center rounded-md shadow-sm">
-<Building2 className="text-white w-5 h-5" />            
-            </div>
-            <div className="flex flex-col justify-center">
-<img src="Indus-logo.svg" alt="Indus TMT" className="w-8 h-8"/>
-            </div>
+          <div className="flex items-center">
+            <img src="logo.png" alt="Indus 555-D TMT" className="h-12 w-auto object-contain" />
           </div>
 
           {/* Desktop Navigation Aligned Right */}
@@ -328,7 +325,7 @@ export default function App() {
                 <button onClick={scrollToForm} className="bg-[#E31837] hover:bg-slate-900 text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center group rounded shadow-lg shadow-red-500/10">
                   Secure Partnership Slot <ArrowRight className="ml-3 w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </button>
-                <a href="tel:+919876543210" className="bg-[#0F172A] hover:bg-[#E31837] text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center rounded shadow-lg">
+                <a href="tel:+919242777777" className="bg-[#0F172A] hover:bg-[#E31837] text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center rounded shadow-lg">
                   <Phone className="w-4 h-4 mr-2" /> Talk to Our Executive
                 </a>
               </div>
@@ -392,12 +389,12 @@ export default function App() {
                 Explore real-time sector status across expansion markets in Southern India. We authorize exclusive monopolies per zip code cluster. We are currently actively expanding our elite network across all major districts of Karnataka and Tamil Nadu.
               </p>
 
-              <div className="flex flex-col gap-3">
+               <div className="flex flex-col gap-4">
                 {Object.keys(TERRITORY_REGIONS).map((state, idx) => (
                   <button 
                     key={idx}
                     onClick={() => setSelectedTerritoryState(state)}
-                    className={`w-full py-4 px-6 text-left text-xs font-black uppercase tracking-widest border transition-all flex items-center justify-between rounded ${selectedTerritoryState === state ? 'bg-[#E31837] border-[#E31837] text-white shadow-md shadow-red-500/10' : 'border-slate-200 bg-white text-slate-600 hover:text-slate-900 hover:border-slate-300'}`}
+                    className={`w-full py-5 px-7 text-left text-xs font-black uppercase tracking-widest border transition-all flex items-center justify-between rounded ${selectedTerritoryState === state ? 'bg-[#E31837] border-[#E31837] text-white shadow-md shadow-red-500/10' : 'border-slate-200 bg-white text-slate-600 hover:text-slate-900 hover:border-slate-300'}`}
                   >
                     <span>{state} Sector</span>
                     <ArrowRight className="w-4 h-4" />
@@ -413,11 +410,11 @@ export default function App() {
                   <span className="text-xs font-mono text-[#E31837] uppercase">{selectedTerritoryState} Sector</span>
                 </div>
 
-                <div className="space-y-4">
+               <div className="space-y-4">
                   {TERRITORY_REGIONS[selectedTerritoryState].map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center p-4 bg-slate-50 border border-slate-200/60 rounded">
-                      <div className="flex items-center gap-3">
-                        <MapPin className="w-4 h-4 text-slate-400" />
+                    <div key={idx} className="flex justify-between items-center p-5 bg-slate-50 border border-slate-200/60 rounded">
+                      <div className="flex items-center gap-4">
+                        <MapPin className="w-5 h-4 text-slate-400" />
                         <span className="font-bold text-slate-900 text-sm">{item.city}</span>
                       </div>
                       <span className="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-sm bg-emerald-50 text-emerald-600 border border-emerald-200">
@@ -447,7 +444,7 @@ export default function App() {
             
             <div className="relative w-full">
               <div className="absolute inset-0 bg-gradient-to-br from-[#E31837]/5 to-transparent pointer-events-none rounded-2xl z-10"></div>
-              <img src="Indus_factory.png" alt="Indus TMT Automated Rolling Mill" className="rounded-2xl shadow-xl border border-slate-200 grayscale hover:grayscale-0 transition-all duration-700 w-full h-[450px] object-cover" />
+              <img src="Indus-logo.svg" alt="Indus TMT Automated Rolling Mill" className="rounded-2xl shadow-xl border border-slate-200 grayscale hover:grayscale-0 transition-all duration-700 w-full h-[450px] object-cover" />
               <div className="absolute -bottom-6 -right-6 bg-white border border-slate-200 p-6 rounded-lg shadow-xl hidden sm:block">
                 <span className="text-xs uppercase tracking-widest text-slate-400 block mb-1">Production Limit</span>
                 <span className="text-2xl font-black text-slate-900">2,00,000 MT / PA</span>
@@ -684,7 +681,7 @@ export default function App() {
                 <li>Bangalore, Karnataka</li>
                 <li>India - 560001</li>
                 <li className="pt-4 text-slate-900 font-black tracking-normal lowercase">global@industmt.com</li>
-                <li className="text-slate-900 font-black tracking-normal lowercase">+91 98765 43210</li>
+                <li className="text-slate-900 font-black tracking-normal lowercase">+91 9242777777</li>
               </ul>
             </div>
 
@@ -702,7 +699,7 @@ export default function App() {
 
       {/* --- FLOATING ACTIONS --- */}
       <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
-        <a href="https://api.whatsapp.com/send/?phone=919242777777" target="_blank" rel="noreferrer" className="w-12 h-12 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110">
+        <a href="https://api.whatsapp.com/send/?phone=919242777777&text&type=phone_number&app_absent=0" target="_blank" rel="noreferrer" className="w-12 h-12 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110">
           <MessageCircle className="w-6 h-6" />
         </a>
       </div>
