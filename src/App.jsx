@@ -28,7 +28,7 @@ const BENEFITS = [
   { icon: Truck, title: "Mobile Tech Van Support", desc: "India's first mobile testing laboratory, conducted near your shop to build customer confidence and drive conversions." },
   { icon: Megaphone, title: "Strong Shop Promotion & Branding", desc: "From signboards to complete shop branding, we help improve visibility, credibility, and customer recall for your shop." },
   { icon: Award, title: "Exclusive Access to Celebrity Launch Events", desc: "Special invitations to celebrity launches and exclusive events that foster recognition, networking, and stronger relationships." },
-  { icon: Building2, title: "Annual Dealer Meets at Luxury Resorts", desc: "Premium family-inclusive dealer meets that celebrate partnerships, strengthen relationships, and create lasting memories." }
+  { icon: , title: "Annual Dealer Meets at Luxury Resorts", desc: "Premium family-inclusive dealer meets that celebrate partnerships, strengthen relationships, and create lasting memories." }
 ];
 
 const TERRITORY_REGIONS = {
@@ -257,7 +257,7 @@ export default function App() {
           {/* Logo Aligned Left */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-[#E31837] flex items-center justify-center rounded-md shadow-sm">
-              <Building2 className="text-white w-5 h-5" />
+              <img src="Indus-logo.svg" alt="Indus TMT" className="w-8 h-8"/>
             </div>
             <div className="flex flex-col justify-center">
               <span className="text-xl font-black tracking-[0.2em] uppercase text-slate-900 leading-none">INDUS <span className="text-[#E31837]">TMT</span></span>
