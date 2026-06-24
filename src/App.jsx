@@ -28,7 +28,7 @@ const BENEFITS = [
   { icon: Truck, title: "Mobile Tech Van Support", desc: "India's first mobile testing laboratory, conducted near your shop to build customer confidence and drive conversions." },
   { icon: Megaphone, title: "Strong Shop Promotion & Branding", desc: "From signboards to complete shop branding, we help improve visibility, credibility, and customer recall for your shop." },
   { icon: Award, title: "Exclusive Access to Celebrity Launch Events", desc: "Special invitations to celebrity launches and exclusive events that foster recognition, networking, and stronger relationships." },
-  { icon: , title: "Annual Dealer Meets at Luxury Resorts", desc: "Premium family-inclusive dealer meets that celebrate partnerships, strengthen relationships, and create lasting memories." }
+  { icon: Building2, title: "Annual Dealer Meets at Luxury Resorts", desc: "Premium family-inclusive dealer meets that celebrate partnerships, strengthen relationships, and create lasting memories." }
 ];
 
 const TERRITORY_REGIONS = {
@@ -182,7 +182,7 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
       </div>
 
       <button type="submit" className="w-full mt-8 bg-[#E31837] hover:bg-[#c6112d] active:scale-[0.98] text-white font-extrabold py-4 px-6 transition-all duration-300 flex items-center justify-between group rounded-lg shadow-lg shadow-red-500/10">
-        <span className="tracking-widest uppercase text-xs">Become an Indus TMT Dealer Now</span>
+        <span className="tracking-widest uppercase text-xs">Become an Indus TMT Dealer Now </span>
         <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
       </button>
 
@@ -325,7 +325,7 @@ export default function App() {
                 <button onClick={scrollToForm} className="bg-[#E31837] hover:bg-slate-900 text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center group rounded shadow-lg shadow-red-500/10">
                   Secure Partnership Slot <ArrowRight className="ml-3 w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </button>
-                <a href="tel:+919242777777" className="bg-[#0F172A] hover:bg-[#E31837] text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center rounded shadow-lg">
+                <a href="tel:+919876543210" className="bg-[#0F172A] hover:bg-[#E31837] text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center rounded shadow-lg">
                   <Phone className="w-4 h-4 mr-2" /> Talk to Our Executive
                 </a>
               </div>
@@ -389,7 +389,7 @@ export default function App() {
                 Explore real-time sector status across expansion markets in Southern India. We authorize exclusive monopolies per zip code cluster. We are currently actively expanding our elite network across all major districts of Karnataka and Tamil Nadu.
               </p>
 
-               <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4">
                 {Object.keys(TERRITORY_REGIONS).map((state, idx) => (
                   <button 
                     key={idx}
@@ -397,7 +397,7 @@ export default function App() {
                     className={`w-full py-5 px-7 text-left text-xs font-black uppercase tracking-widest border transition-all flex items-center justify-between rounded ${selectedTerritoryState === state ? 'bg-[#E31837] border-[#E31837] text-white shadow-md shadow-red-500/10' : 'border-slate-200 bg-white text-slate-600 hover:text-slate-900 hover:border-slate-300'}`}
                   >
                     <span>{state} Sector</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-5 h-5" />
                   </button>
                 ))}
               </div>
@@ -410,7 +410,7 @@ export default function App() {
                   <span className="text-xs font-mono text-[#E31837] uppercase">{selectedTerritoryState} Sector</span>
                 </div>
 
-               <div className="space-y-4">
+                <div className="space-y-4">
                   {TERRITORY_REGIONS[selectedTerritoryState].map((item, idx) => (
                     <div key={idx} className="flex justify-between items-center p-5 bg-slate-50 border border-slate-200/60 rounded">
                       <div className="flex items-center gap-4">
@@ -426,7 +426,7 @@ export default function App() {
 
                 <div className="mt-8 pt-6 border-t border-slate-200 text-center">
                   <button onClick={scrollToForm} className="w-full bg-slate-900 hover:bg-[#E31837] text-white font-black uppercase tracking-widest text-xs py-3.5 px-6 transition-all rounded shadow">
-                   Reserve Your Slot In {selectedTerritoryState} Today
+                    Reserve Your Slot In {selectedTerritoryState} Today
                   </button>
                 </div>
               </div>
@@ -444,7 +444,7 @@ export default function App() {
             
             <div className="relative w-full">
               <div className="absolute inset-0 bg-gradient-to-br from-[#E31837]/5 to-transparent pointer-events-none rounded-2xl z-10"></div>
-              <img src="Indus-logo.svg" alt="Indus TMT Automated Rolling Mill" className="rounded-2xl shadow-xl border border-slate-200 grayscale hover:grayscale-0 transition-all duration-700 w-full h-[450px] object-cover" />
+              <img src="Indus_factory.png" alt="Indus TMT Automated Rolling Mill" className="rounded-2xl shadow-xl border border-slate-200 grayscale hover:grayscale-0 transition-all duration-700 w-full h-[450px] object-cover" />
               <div className="absolute -bottom-6 -right-6 bg-white border border-slate-200 p-6 rounded-lg shadow-xl hidden sm:block">
                 <span className="text-xs uppercase tracking-widest text-slate-400 block mb-1">Production Limit</span>
                 <span className="text-2xl font-black text-slate-900">2,00,000 MT / PA</span>
@@ -454,7 +454,7 @@ export default function App() {
             <div className="flex flex-col">
               <div className="inline-flex items-center gap-2 mb-4 self-start">
                 <div className="w-6 h-[1px] bg-[#E31837]"></div>
-                <span className="text-[#E31837] text-xs font-bold tracking-[0.2em] uppercase">Sucessfull Since From 1996</span>
+                <span className="text-[#E31837] text-xs font-bold tracking-[0.2em] uppercase">Sucessfull Since 1996</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-6">About Us</h2>
               <p className="text-slate-500 text-lg leading-relaxed font-light mb-8">
@@ -618,52 +618,14 @@ export default function App() {
         </div>
       </section>
 
-      {/* --- THE APEX CALL TO ACTION --- */}
-      <section className="py-28 bg-white relative overflow-hidden border-t border-slate-200">
-        <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-[#E31837] to-transparent"></div>
-
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-            <div className="flex flex-col lg:sticky lg:top-32 lg:pt-8">
-              <span className="text-[#E31837] text-xs font-bold tracking-[0.25em] uppercase mb-4 block self-start">Corporate Alliances</span>
-              <h2 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight tracking-tight mb-6">
-                Acquire Exclusive Territorial Rights
-              </h2>
-              <p className="text-slate-500 text-base font-light leading-relaxed mb-8">
-                Submit verified organizational parameters and corporate credentials to request the localized market distribution prospectus.
-              </p>
-              
-              <div className="space-y-5">
-                <div className="flex items-center text-sm text-slate-700 font-medium">
-                  <CheckCircle2 className="w-5 h-5 text-[#E31837] mr-3" /> Dedicated Corporate Account Manager
-                </div>
-                <div className="flex items-center text-sm text-slate-700 font-medium">
-                  <CheckCircle2 className="w-5 h-5 text-[#E31837] mr-3" /> Advanced Trade Credit Structures Available
-                </div>
-                <div className="flex items-center text-sm text-slate-700 font-medium">
-                  <CheckCircle2 className="w-5 h-5 text-[#E31837] mr-3" /> Localized Builder Routing Campaigns Activated
-                </div>
-              </div>
-            </div>
-
-            <div className="w-full">
-              <LuxuryLeadForm buttonText="Initiate Registration" id="bottom-prospectus" />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* --- FOOTER --- */}
       <footer className="bg-slate-50 pt-24 pb-12 border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-16 mb-20">
             
             <div className="md:col-span-7 lg:col-span-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 bg-[#E31837] flex items-center justify-center rounded-sm">
-                  <Building2 className="text-white w-4 h-4" />
-                </div>
-                <span className="text-slate-900 text-xl font-black tracking-[0.2em] uppercase">INDUS <span className="text-[#E31837]">TMT</span></span>
+              <div className="flex items-center mb-6">
+                <img src="logo.png" alt="Indus 555-D TMT" className="h-16 w-auto object-contain" />
               </div>
               <p className="text-slate-500 font-light text-sm leading-relaxed max-w-sm mb-8">
                 Pioneering regional structural reinforcement structures since 1996. We fabricate the high ductility steel that anchors commercial futures.
@@ -681,7 +643,7 @@ export default function App() {
                 <li>Bangalore, Karnataka</li>
                 <li>India - 560001</li>
                 <li className="pt-4 text-slate-900 font-black tracking-normal lowercase">global@industmt.com</li>
-                <li className="text-slate-900 font-black tracking-normal lowercase">+91 9242777777</li>
+                <li className="text-slate-900 font-black tracking-normal lowercase">+91 98765 43210</li>
               </ul>
             </div>
 
@@ -699,7 +661,7 @@ export default function App() {
 
       {/* --- FLOATING ACTIONS --- */}
       <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
-        <a href="https://api.whatsapp.com/send/?phone=919242777777&text&type=phone_number&app_absent=0" target="_blank" rel="noreferrer" className="w-12 h-12 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110">
+        <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="w-12 h-12 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110">
           <MessageCircle className="w-6 h-6" />
         </a>
       </div>
