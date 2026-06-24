@@ -257,11 +257,10 @@ export default function App() {
           {/* Logo Aligned Left */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-[#E31837] flex items-center justify-center rounded-md shadow-sm">
-              <img src="Indus-logo.svg" alt="Indus TMT" className="w-8 h-8"/>
+<Building2 className="text-white w-5 h-5" />            
             </div>
             <div className="flex flex-col justify-center">
-              <span className="text-xl font-black tracking-[0.2em] uppercase text-slate-900 leading-none">INDUS <span className="text-[#E31837]">TMT</span></span>
-              <span className="block text-[8px] tracking-[0.4em] font-bold text-slate-400 mt-1 leading-none">INDUSTRIAL GLOBAL</span>
+<img src="Indus-logo.svg" alt="Indus TMT" className="w-8 h-8"/>
             </div>
           </div>
 
@@ -703,7 +702,7 @@ export default function App() {
 
       {/* --- FLOATING ACTIONS --- */}
       <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
-        <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="w-12 h-12 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110">
+        <a href="https://api.whatsapp.com/send/?phone=919242777777" target="_blank" rel="noreferrer" className="w-12 h-12 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110">
           <MessageCircle className="w-6 h-6" />
         </a>
       </div>
