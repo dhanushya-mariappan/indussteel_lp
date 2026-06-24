@@ -258,7 +258,7 @@ export default function App() {
           
           {/* Logo Aligned Left */}
           <div className="flex items-center">
-            <img src="logo.png" alt="Indus 555-D TMT" className="h-12 w-auto object-contain" />
+            <img src="Indus-logo.svg" alt="Indus 555-D TMT" className="h-12 w-auto object-contain" />
           </div>
 
           {/* Desktop Navigation Aligned Right */}
@@ -625,7 +625,7 @@ export default function App() {
             
             <div className="md:col-span-7 lg:col-span-8">
               <div className="flex items-center mb-6">
-                <img src="logo.png" alt="Indus 555-D TMT" className="h-16 w-auto object-contain" />
+                <img src="Indus-logo.svg" alt="Indus 555-D TMT" className="h-16 w-auto object-contain" />
               </div>
               <p className="text-slate-500 font-light text-sm leading-relaxed max-w-sm mb-8">
                 Pioneering regional structural reinforcement structures since 1996. We fabricate the high ductility steel that anchors commercial futures.
