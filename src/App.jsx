@@ -37,14 +37,14 @@ const TERRITORY_REGIONS = {
     { city: "Mysuru & South Karnataka", status: "Available" },
     { city: "Hubli-Dharwad & North Karnataka", status: "Available" },
     { city: "Mangaluru & Coastal Zone", status: "Active Search" },
-    { city: "Other Region", status: "Available" }
+    { city: "Other Regions", status: "Available" }
   ],
   "Tamil Nadu": [
     { city: "Chennai", status: "Active Expansion" },
     { city: "Hosur", status: "Active Expansion" },
     { city: "Salem", status: "Available" },
     { city: "Dharmapuri", status: "Available" },
-    { city: "krishnagiri", status: "Available" }
+    { city: "Krishnagiri", status: "Available" }
   ]
 };
 
@@ -92,6 +92,63 @@ const FAQS = [
 // --- ULTRA-PREMIUM LIGHT MINIMALIST FORM ---
 const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" }) => {
   const [submitted, setSubmitted] = useState(false);
+  const [pincode, setPincode] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [areas, setAreas] = useState([]);
+  const [selectedArea, setSelectedArea] = useState('');
+  const [isPincodeLoading, setIsPincodeLoading] = useState(false);
+  const [pincodeError, setPincodeError] = useState('');
+
+  const fetchLocationData = async (pin) => {
+    setIsPincodeLoading(true);
+    setPincodeError('');
+    setCity('');
+    setState('');
+    setAreas([]);
+    setSelectedArea('');
+
+    try {
+      const response = await fetch(`https://api.postalpincode.in/pincode/${pin}`);
+      const data = await response.json();
+
+      if (data[0].Status === 'Success') {
+        const postOffices = data[0].PostOffice;
+        const office = postOffices[0];
+        setCity(office.District);
+        setState(office.State);
+        
+        // Extract areas
+        const fetchedAreas = postOffices.map(po => po.Name);
+        setAreas(fetchedAreas);
+        if (fetchedAreas.length > 0) {
+          setSelectedArea(fetchedAreas[0]);
+        }
+      } else {
+        setPincodeError('Invalid Pincode. Please check again.');
+      }
+    } catch (error) {
+      console.error("Error fetching pincode data:", error);
+      setPincodeError('Failed to verify pincode. Enter manually if needed.');
+    } finally {
+      setIsPincodeLoading(false);
+    }
+  };
+
+  const handlePincodeChange = (e) => {
+    const val = e.target.value.replace(/\D/g, ''); // Ensure only numbers
+    setPincode(val);
+    
+    if (val.length === 6) {
+      fetchLocationData(val);
+    } else {
+      setCity('');
+      setState('');
+      setAreas([]);
+      setSelectedArea('');
+      setPincodeError('');
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -143,31 +200,46 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
           <label htmlFor={`${id}-company`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">Registered Firm Name *</label>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Dynamic Location Lookup Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="relative">
-            <input required type="text" id={`${id}-pincode`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Pincode" />
-            <label htmlFor={`${id}-pincode`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">Pincode *</label>
+            <input required type="text" maxLength="6" id={`${id}-pincode`} value={pincode} onChange={handlePincodeChange} className={`peer w-full bg-slate-50 border ${pincodeError ? 'border-red-400' : 'border-slate-200'} focus:border-[#E31837] focus:bg-white p-3 pr-10 text-sm text-slate-900 outline-none transition-colors rounded`} placeholder="6-Digit Pincode" />
+            <label htmlFor={`${id}-pincode`} className={`absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold ${pincodeError ? 'text-red-500' : 'text-slate-500'} peer-focus:text-[#E31837] transition-all`}>Pincode *</label>
+            {isPincodeLoading && (
+              <div className="absolute right-3 top-3.5 w-4 h-4 border-2 border-slate-300 border-t-[#E31837] rounded-full animate-spin"></div>
+            )}
+            {!isPincodeLoading && city && !pincodeError && (
+              <CheckCircle2 className="absolute right-3 top-3.5 w-4 h-4 text-emerald-500" />
+            )}
+            {pincodeError && <span className="absolute -bottom-5 left-1 text-[10px] text-red-500">{pincodeError}</span>}
+          </div>
+          
+          <div className="relative">
+             {areas.length > 0 ? (
+                <select required value={selectedArea} onChange={(e) => setSelectedArea(e.target.value)} className="peer w-full bg-emerald-50/50 border border-emerald-200 focus:border-emerald-500 focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none cursor-pointer">
+                  {areas.map((area, index) => (
+                    <option key={index} value={area}>{area}</option>
+                  ))}
+                </select>
+             ) : (
+                <input type="text" disabled className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-400 outline-none transition-colors rounded cursor-not-allowed" placeholder="Area / Locality" />
+             )}
+            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">Area (Auto) *</label>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+           <div className="relative">
+            <input required type="text" readOnly value={city} id={`${id}-city`} className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-600 outline-none rounded" placeholder="City" />
+            <label htmlFor={`${id}-city`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">City (Auto) *</label>
           </div>
           <div className="relative">
-            <select required defaultValue="" className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none">
-              <option value="" disabled hidden>State *</option>
-              <option value="Karnataka">Karnataka</option>
-              <option value="Tamil Nadu">Tamil Nadu</option>
-            </select>
-            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">Territory State *</label>
-          </div>
-          <div className="relative">
-            <input required type="text" id={`${id}-city`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="City" />
-            <label htmlFor={`${id}-city`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">City *</label>
+            <input required type="text" readOnly value={state} id={`${id}-state`} className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-600 outline-none rounded" placeholder="State" />
+            <label htmlFor={`${id}-state`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">State (Auto) *</label>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="relative">
-            <input required type="text" id={`${id}-gst`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="GST Number" />
-            <label htmlFor={`${id}-gst`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">Registered GST Number *</label>
-          </div>
-          
           <div className="relative">
              <select required defaultValue="" className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none">
               <option value="" disabled hidden>Average Monthly Steel Sales</option>
@@ -178,11 +250,15 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
             </select>
             <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">Avg. Monthly Sales *</label>
           </div>
+           <div className="relative">
+            <input type="text" id={`${id}-gst`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="GST Number (Optional)" />
+            <label htmlFor={`${id}-gst`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">GST Number</label>
+          </div>
         </div>
       </div>
 
       <button type="submit" className="w-full mt-8 bg-[#E31837] hover:bg-[#c6112d] active:scale-[0.98] text-white font-extrabold py-4 px-6 transition-all duration-300 flex items-center justify-between group rounded-lg shadow-lg shadow-red-500/10">
-        <span className="tracking-widest uppercase text-xs">Become an Indus TMT Dealer Now </span>
+        <span className="tracking-widest uppercase text-xs">Become an Indus TMT Dealer Now</span>
         <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
       </button>
 
@@ -199,8 +275,8 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(0); 
   const [selectedTerritoryState, setSelectedTerritoryState] = useState("Karnataka");
+  const [activeStage, setActiveStage] = useState(0); // State for Manufacturing Stages Slider
   
-  // Exit intent popup state
   const [showExitModal, setShowExitModal] = useState(false);
   const [exitFormSubmitted, setExitFormSubmitted] = useState(false);
 
@@ -229,19 +305,27 @@ export default function App() {
   }, []);
 
   const scrollToSection = (e, sectionId) => {
-    e.preventDefault(); 
+    e.preventDefault();
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-    setIsMenuOpen(false); 
+    setIsMenuOpen(false);
   };
 
   const scrollToForm = () => {
     document.getElementById('application-form-section')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const triggerBrochureDownload = () => {
+    const link = document.createElement('a');
+    link.href = 'https://industmt.com/brochure.pdf'; 
+    link.download = 'Indus_TMT_Corporate_Profile.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="font-sans text-slate-700 bg-white selection:bg-[#E31837] selection:text-white antialiased overflow-x-hidden">
       
-      {/* FAQ Schema */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -436,36 +520,69 @@ export default function App() {
         </div>
       </section>
 
-      {/* --- ENTERPRISE HERITAGE --- */}
+      {/* --- ABOUT US / MANUFACTURING STAGES (REPLACES OLD MASTERCLASS) --- */}
       <section id="about" className="py-28 border-t border-slate-100 bg-[#FAFAFA] relative">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            
-            <div className="relative w-full">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#E31837]/5 to-transparent pointer-events-none rounded-2xl z-10"></div>
-              <img src="Indus_factory.png" alt="Indus TMT Automated Rolling Mill" className="rounded-2xl shadow-xl border border-slate-200 grayscale hover:grayscale-0 transition-all duration-700 w-full h-[450px] object-cover" />
-              <div className="absolute -bottom-6 -right-6 bg-white border border-slate-200 p-6 rounded-lg shadow-xl hidden sm:block">
-                <span className="text-xs uppercase tracking-widest text-slate-400 block mb-1">Production Limit</span>
-                <span className="text-2xl font-black text-slate-900">2,00,000 MT / PA</span>
-              </div>
+          
+          <div className="text-center max-w-4xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 mb-4 justify-center">
+              <div className="w-6 h-[1px] bg-[#E31837]"></div>
+              <span className="text-[#E31837] text-xs font-bold tracking-[0.2em] uppercase">About Us</span>
+              <div className="w-6 h-[1px] bg-[#E31837]"></div>
             </div>
-
-            <div className="flex flex-col">
-              <div className="inline-flex items-center gap-2 mb-4 self-start">
-                <div className="w-6 h-[1px] bg-[#E31837]"></div>
-                <span className="text-[#E31837] text-xs font-bold tracking-[0.2em] uppercase">Sucessfull Since 1996</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-6">About Us</h2>
-              <p className="text-slate-500 text-lg leading-relaxed font-light mb-8">
-                We began our journey in 1996 with a vision to convert the blueprint of dreams into structures. Our state-of-art manufacturing unit at Hosur near Attibelle(Kn) well equipped with advanced computer controlled, mechanical & automated machinery combined with our innovations, commitment & reliability has delivered consistent & best quality steel much above BIS. We have been considered as No.1 brand in Karnataka by Individual building owners, bar benders, mason, contractors, structural engineers, architects & dealers as they are very happy with INDUS 555-D TMT.
-              </p>
-
-              <a href="Indus-Catalog.pdf" download className="flex items-center text-slate-900 font-bold tracking-widest text-xs uppercase hover:text-[#E31837] transition-colors group self-start">
-                <Download className="w-4 h-4 mr-2" /> Download Corporate Profile Document <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-            </div>
-
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-6 uppercase">Successful Since 1996</h2>
+            <p className="text-slate-500 text-lg leading-relaxed font-light mb-8">
+              We began our journey in 1996 with a vision to convert the blueprint of dreams into structures. Our state-of-art manufacturing unit at Hosur near Attibelle(Kn) well equipped with advanced computer controlled, mechanical & automated machinery combined with our innovations, commitment & reliability has delivered consistent & best quality steel much above BIS. We have been considered as No.1 brand in Karnataka by Individual building owners, bar benders, mason, contractors, structural engineers, architects & dealers as they are very happy with INDUS 555-D TMT.
+            </p>
+            <button onClick={triggerBrochureDownload} className="inline-flex items-center text-slate-900 font-bold tracking-widest text-xs uppercase hover:text-[#E31837] transition-all group border border-slate-300 bg-white px-6 py-3.5 rounded shadow-sm">
+              <Download className="w-4 h-4 mr-2" /> Download Corporate Profile Document
+              <a href="pdf/Indus-Catalog.pdf" download>
+            </button>
           </div>
+
+          <div className="mt-20">
+            <h3 className="text-3xl font-black text-center text-slate-900 mb-10">TMT Manufacturing Stages</h3>
+
+            {/* Sync 2: Tabs */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+              {MANUFACTURING_STAGES.map((stage, idx) => (
+                <button
+                  key={stage.id}
+                  onClick={() => setActiveStage(idx)}
+                  className={`flex flex-col items-center justify-center p-6 rounded-xl border transition-all duration-300 ${
+                    activeStage === idx
+                      ? 'border-[#E31837] bg-red-50 text-[#E31837] shadow-md scale-[1.02]'
+                      : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:shadow-sm hover:text-slate-700'
+                  }`}
+                >
+                  <stage.icon className={`w-8 h-8 mb-4 transition-colors ${activeStage === idx ? 'text-[#E31837]' : 'text-slate-400'}`} />
+                  <h6 className={`font-bold text-sm tracking-wide text-center transition-colors ${activeStage === idx ? 'text-slate-900' : 'text-slate-600'}`}>
+                    {stage.title}
+                  </h6>
+                </button>
+              ))}
+            </div>
+
+            {/* Sync 1: Content Area */}
+            <div className="relative overflow-hidden bg-white border border-slate-200 rounded-2xl shadow-xl min-h-[450px] lg:min-h-[350px]">
+              {MANUFACTURING_STAGES.map((stage, idx) => (
+                <div
+                  key={stage.id}
+                  className={`absolute inset-0 w-full h-full p-8 md:p-12 transition-all duration-700 ease-in-out flex flex-col lg:flex-row items-center gap-10 ${
+                    activeStage === idx ? 'opacity-100 translate-x-0 relative z-10' : 'opacity-0 translate-x-10 pointer-events-none absolute z-0'
+                  }`}
+                >
+                  <div className="lg:w-1/2 flex flex-col justify-center">
+                    <h4 className="text-2xl font-bold text-slate-900 mb-6 leading-tight">{stage.desc}</h4>
+                  </div>
+                  <div className="lg:w-1/2 w-full h-64 lg:h-full relative rounded-xl overflow-hidden shadow-inner bg-slate-100">
+                     <img src={stage.image} alt={stage.title} className="w-full h-full object-cover mix-blend-multiply" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
