@@ -806,7 +806,7 @@ const triggerBrochureDownload = () => {
 
       {/* --- FLOATING ACTIONS --- */}
       <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
-        <a href="https://wa.me/919353410325" target="_blank" rel="noreferrer" className="w-12 h-12 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110">
+        <a href="https://wa.me/919242777777" target="_blank" rel="noreferrer" className="w-12 h-12 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110">
           <MessageCircle className="w-6 h-6" />
         </a>
       </div>
