@@ -352,15 +352,15 @@ export default function App() {
     document.getElementById('application-form-section')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const triggerBrochureDownload = () => {
-    const link = document.createElement('a');
-    link.href = 'https://industmt.com/brochure.pdf'; 
-    link.download = 'Indus_TMT_Corporate_Profile.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
+const triggerBrochureDownload = () => {
+  const link = document.createElement('a');
+  link.href = '/Indus-Catalog.pdf';
+  link.download = 'Indus-Catalog.pdf';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+  
   return (
     <div className="font-sans text-slate-700 bg-white selection:bg-[#E31837] selection:text-white antialiased overflow-x-hidden">
       
