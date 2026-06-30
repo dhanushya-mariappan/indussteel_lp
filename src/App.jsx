@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Building2, CheckCircle2, MapPin, Phone, Mail, Award, 
-  TrendingUp, Settings, Users, ShieldCheck, Factory, 
-  HardHat, FileText, ChevronDown, MessageCircle, Menu, 
-  X, ArrowRight, Download, Calculator, BarChart3, Globe,
-  Briefcase, Star, Percent, Zap, Check, Sparkles, HelpCircle,
-  Truck, Gift, Megaphone
+  Building2, CheckCircle2, MapPin, Phone, Award, 
+  TrendingUp, Users, ShieldCheck, Factory, 
+  HardHat, ChevronDown, MessageCircle, Menu, 
+  X, ArrowRight, Download, Check, Sparkles, Zap
 } from 'lucide-react';
 
 // --- DATA CONSTANTS ---
@@ -19,16 +17,56 @@ const BRAND_COLORS = {
   neutralMuted: '#64748B'
 };
 
+// Reusable SVG components for generic icons (MOVED ABOVE BENEFITS ARRAY)
+// Fixing the initialization order so they are not evaluated as 'undefined' when constructing the array.
+const Globe = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="2" y1="12" x2="22" y2="12"></line>
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+  </svg>
+);
+
+const Star = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+  </svg>
+);
+
 const BENEFITS = [
-  { icon: Gift, title: "Dealer Growth Kit", desc: "Receive branded merchandise, marketing materials, and utility items that enhance shop visibility and strengthen brand association." },
+  { icon: Award, title: "Dealer Growth Kit", desc: "Receive branded merchandise, marketing materials, and utility items that enhance shop visibility and strengthen brand association." },
   { icon: Users, title: "Counter Meet Support", desc: "Indus conducts influencer meets at your outlet to create awareness, generate demand, and support sales growth." },
-  { icon: TrendingUp, title: "On-Ground Sales & Lead Generation", desc: "Dedicated field support and qualified lead generation help increase conversions and drive secondary sales." },
-  { icon: Star, title: "Gold Schemes Directly Linked to Performance", desc: "Rewarding dealer performance with premium incentives that recognize growth, achievement, and business success." },
+  { icon: TrendingUp, title: "On-Ground Sales Support & Lead Generation", desc: "Dedicated field support and qualified lead generation help increase conversions and drive secondary sales." },
+  { icon: Award, title: "Gold Schemes Directly Linked to Performance", desc: "Rewarding dealer performance with premium incentives that recognize growth, achievement, and business success." },
   { icon: Globe, title: "Domestic & International Dealer Trips", desc: "Exclusive travel experiences with the Managing Director, enabling networking with leading dealers and celebrating success." },
-  { icon: Truck, title: "Mobile Tech Van Support", desc: "India's first mobile testing laboratory, conducted near your shop to build customer confidence and drive conversions." },
-  { icon: Megaphone, title: "Strong Shop Promotion & Branding", desc: "From signboards to complete shop branding, we help improve visibility, credibility, and customer recall for your shop." },
-  { icon: Award, title: "Exclusive Access to Celebrity Launch Events", desc: "Special invitations to celebrity launches and exclusive events that foster recognition, networking, and stronger relationships." },
-  { icon: Building2, title: "Annual Dealer Meets at Luxury Resorts", desc: "Premium family-inclusive dealer meets that celebrate partnerships, strengthen relationships, and create lasting memories." }
+  { icon: Factory, title: "Mobile Tech Van Support", desc: "India's first mobile testing laboratory, conducted near your shop to build customer confidence and drive conversions." },
+  { icon: Sparkles, title: "Strong Shop Promotion & Branding Support", desc: "From signboards to complete shop branding, we help improve visibility, credibility, and customer recall for your shop." },
+  { icon: Star, title: "Exclusive Access to Celebrity Launch Events", desc: "Special invitations to celebrity launches and exclusive events that foster recognition, networking, and stronger relationships." },
+  { icon: Building2, title: "Annual Dealer Meets at Luxury Resorts - With Families", desc: "Premium family-inclusive dealer meets that celebrate partnerships, strengthen relationships, and create lasting memories." }
+];
+
+const MANUFACTURING_STAGES = [
+  {
+    id: 0,
+    title: "Raw Materials to Molten Iron",
+    desc: "Selective low sulphur, low phosphorus sponge iron pellets and recycled green steel is used to produce molten steel by adding quality micro elements in stage one.",
+    image: "About us 1.jpg",
+    icon: HardHat
+  },
+  {
+    id: 1,
+    title: "Molten Iron to Primary Steel",
+    desc: "This molten steel is casted into quality Billets through South India's first BULLET CASTER and rolled in the state of art rolling mill into rods of required diameters.",
+    image: "About us 2.jpg",
+    icon: Factory
+  },
+  {
+    id: 2,
+    title: "Thermo Mechanical Treatment",
+    desc: "The hot rolled bars released from rolling mill are passed through a technological innovative tmt box with a combination of pipe and nozzle system. It cools down the outer core rapidly and self tempering happens where the heat from the core passes to the bar surface to harden the TMT bar outer core. Finally atmospheric cooling ensure the austenitic core turns as ferrite-pearlite structure. This make Indus TMT more ductile and with higher tensile strength.",
+    image: "About us 3.jpg",
+    icon: Zap
+  }
 ];
 
 const TERRITORY_REGIONS = {
@@ -40,22 +78,22 @@ const TERRITORY_REGIONS = {
     { city: "Other Regions", status: "Available" }
   ],
   "Tamil Nadu": [
-    { city: "Chennai", status: "Active Expansion" },
-    { city: "Hosur", status: "Active Expansion" },
-    { city: "Salem", status: "Available" },
-    { city: "Dharmapuri", status: "Available" },
-    { city: "Krishnagiri", status: "Available" }
+    { city: "Chennai & Surrounding", status: "Available" },
+    { city: "Coimbatore Industrial Belt", status: "Active Expansion" },
+    { city: "Madurai & South", status: "Active Search" },
+    { city: "Salem Region", status: "Available" },
+    { city: "Other Regions", status: "Available" }
   ]
 };
 
-const ELIGIBLE_PROFILES = [
-  { segment: "Minimum Sales Volume", qualification: "Average steel sales of at least 25 tons per month over the last 6 months." },
-  { segment: "Business Type", qualification: "Multi-brand TMT dealers and building material dealers are eligible to apply." },
-  { segment: "Shop Size & Infrastructure", qualification: "Minimum 600 sq. ft. shop with adequate storage and accessibility for heavy vehicles." },
-  { segment: "Stock Holding Capacity", qualification: "Ability to maintain a minimum live stock of 20 tons with proper storage facilities." }
+const ELIGIBLE_LEFT = [
+  { title: "Minimum Sales Volume", desc: "Average steel sales of at least 25 tons per month over the last 6 months." },
+  { title: "Business Type", desc: "Multi-brand TMT dealers and building material dealers are eligible to apply." },
+  { title: "Shop Size & Infrastructure", desc: "Minimum 600 sq. ft. shop with adequate storage and accessibility for heavy vehicles." },
+  { title: "Stock Holding Capacity", desc: "Ability to maintain a minimum live stock of 20 tons with proper storage facilities." }
 ];
 
-const VERIFICATION_PARAMS = [
+const ELIGIBLE_RIGHT = [
   { title: "Financial Discipline & Payment Capability", desc: "Consistent payment cycle of up to 15 days with existing brands and willingness to make advance payments during the initial association period (6 months)." },
   { title: "Location Requirements", desc: "Shop must be located on a main or motorable road, accessible by 16-20 ton lorries, and not inside narrow lanes." },
   { title: "GST Registration", desc: "Valid GST registration with timely compliance and filing records." },
@@ -317,7 +355,7 @@ export default function App() {
   const triggerBrochureDownload = () => {
     const link = document.createElement('a');
     link.href = 'https://industmt.com/brochure.pdf'; 
-    link.download = 'Indus-Catalog.pdf';
+    link.download = 'Indus_TMT_Corporate_Profile.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -337,23 +375,27 @@ export default function App() {
       })}} />
 
       {/* --- FLOATING HEADER --- */}
-      <header className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md py-4 border-b border-slate-200' : 'bg-transparent py-6'}`}>
+      <header className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md py-3 border-b border-slate-200' : 'bg-transparent py-5'}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center">
           
-          {/* Logo Aligned Left */}
+          {/* Logo Aligned Center vertically with Nav */}
           <div className="flex items-center">
-            <img src="Indus-logo.svg" alt="Indus 555-D TMT" className="h-24 w-auto object-contain" />
+            <img 
+              src="logo.png" 
+              alt="Indus TMT Logo" 
+              className="h-14 md:h-20 lg:h-24 w-auto object-contain" 
+            />
           </div>
 
           {/* Desktop Navigation Aligned Right */}
           <nav className="hidden lg:flex items-center gap-8">
-            <a href="#benefits" onClick={(e) => scrollToSection(e, 'benefits')} className="text-xs font-black uppercase tracking-widest text-slate-700 hover:text-slate-900 transition-colors cursor-pointer">Why Distributors Choose Us</a>
-            <a href="#eligible" onClick={(e) => scrollToSection(e, 'eligible')} className="text-xs font-black uppercase tracking-widest text-slate-700 hover:text-slate-900 transition-colors cursor-pointer">Eligible Segments</a>
-            <a href="#territories" onClick={(e) => scrollToSection(e, 'territories')} className="text-xs font-black uppercase tracking-widest text-slate-700 hover:text-[#E31837] transition-colors flex items-center gap-2 cursor-pointer">
+            <a href="#benefits" onClick={(e) => scrollToSection(e, 'benefits')} className="text-[11px] font-black uppercase tracking-widest text-slate-700 hover:text-slate-900 transition-colors cursor-pointer">Why Distributors Choose Us</a>
+            <a href="#eligible" onClick={(e) => scrollToSection(e, 'eligible')} className="text-[11px] font-black uppercase tracking-widest text-slate-700 hover:text-slate-900 transition-colors cursor-pointer">Eligible Segments</a>
+            <a href="#territories" onClick={(e) => scrollToSection(e, 'territories')} className="text-[11px] font-black uppercase tracking-widest text-slate-700 hover:text-[#E31837] transition-colors flex items-center gap-2 cursor-pointer">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span> Open Territories
             </a>
-            <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} className="text-xs font-black uppercase tracking-widest text-slate-700 hover:text-slate-900 transition-colors cursor-pointer">FAQS</a>
-            <button onClick={scrollToForm} className="bg-[#E31837] hover:bg-red-700 text-white text-xs font-black uppercase tracking-widest px-6 py-2.5 transition-all duration-300 rounded shadow-md ml-2 cursor-pointer">
+            <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} className="text-[11px] font-black uppercase tracking-widest text-slate-700 hover:text-slate-900 transition-colors cursor-pointer">FAQS</a>
+            <button onClick={scrollToForm} className="bg-[#E31837] hover:bg-red-700 text-white text-[11px] font-black uppercase tracking-widest px-6 py-3 transition-all duration-300 rounded shadow-md ml-2 cursor-pointer">
               Request Partnership
             </button>
           </nav>
@@ -374,28 +416,28 @@ export default function App() {
              </a>
              <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} className="text-slate-800 text-xs font-bold uppercase tracking-widest cursor-pointer">FAQS</a>
              <button onClick={() => { setIsMenuOpen(false); scrollToForm(); }} className="bg-[#E31837] text-white text-xs font-bold uppercase tracking-widest px-6 py-4 mt-4 w-full rounded cursor-pointer">
-               Request Prospectus
+               Request Partnership
              </button>
           </div>
         )}
       </header>
 
-      {/* --- PREMIUM LIGHT-HERO SECTION --- */}
-        <section className="relative flex items-center bg-white pt-40 pb-20 overflow-hidden">        {/* Abstract Fine Grid Background */}
+      {/* --- HERO SECTION (FIXED PADDING & ALIGNMENT) --- */}
+      <section className="relative bg-white pt-40 pb-24 overflow-hidden">
+        {/* Abstract Fine Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000003_1px,transparent_1px),linear-gradient(to_bottom,#00000003_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#E31837]/3 rounded-full blur-[150px] pointer-events-none"></div>
-        <div className="absolute bottom-10 right-10 w-[300px] h-[300px] bg-slate-100 rounded-full blur-[100px] pointer-events-none"></div>
 
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pt-16 pb-20 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             
-            <div className="flex flex-col justify-center">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 bg-slate-50 backdrop-blur-md mb-8 self-start">
+            <div className="flex flex-col pt-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 bg-slate-50 backdrop-blur-md mb-8 self-start shadow-sm">
                 <Sparkles className="w-4 h-4 text-[#E31837]" />
                 <span className="text-slate-600 text-[10px] font-bold tracking-[0.25em] uppercase">Private Staging Platform 2026</span>
               </div>
               
-              <h1 className="text-4xl sm:text-6xl xl:text-7xl font-black text-slate-900 leading-[1.05] tracking-tight mb-8">
+              <h1 className="text-5xl sm:text-6xl xl:text-7xl font-black text-slate-900 leading-[1.05] tracking-tight mb-8">
                 Become an Authorized <br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E31837] to-red-800">Indus TMT Dealer</span>
               </h1>
@@ -404,11 +446,11 @@ export default function App() {
                 Become the Authorized Indus TMT Distribution Partner. Tap into South India's high-velocity infrastructure boom with verified, premium-grade steel and protected territorial allocations.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-5 mb-8">
-                <button onClick={scrollToForm} className="bg-[#E31837] hover:bg-slate-900 text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center group rounded shadow-lg shadow-red-500/10">
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                <button onClick={scrollToForm} className="bg-[#E31837] hover:bg-red-700 text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center group rounded shadow-lg shadow-red-500/10">
                   Secure Partnership Slot <ArrowRight className="ml-3 w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </button>
-                <a href="tel:+919242777777" className="bg-[#0F172A] hover:bg-[#E31837] text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center rounded shadow-lg">
+                <a href="tel:+919353410325" className="bg-[#0F172A] hover:bg-[#1e293b] text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center rounded shadow-lg">
                   <Phone className="w-4 h-4 mr-2" /> Talk to Our Executive
                 </a>
               </div>
@@ -456,12 +498,10 @@ export default function App() {
         </div>
       </section>
 
-      {/* --- GEOGRAPHIC TERRITORY STAGED BOARD --- */}
+      {/* --- GEOGRAPHIC TERRITORY BOARD --- */}
       <section id="territories" className="py-28 bg-white border-t border-slate-100 relative">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            
             <div className="flex flex-col">
               <div className="inline-flex items-center gap-2 mb-4 self-start">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
@@ -471,36 +511,36 @@ export default function App() {
               <p className="text-slate-500 text-base font-light leading-relaxed mb-8">
                 Explore real-time sector status across expansion markets in Southern India. We authorize exclusive monopolies per zip code cluster. We are currently actively expanding our elite network across all major districts of Karnataka and Tamil Nadu.
               </p>
-
-              <div className="flex flex-col gap-4">
-                {Object.keys(TERRITORY_REGIONS).map((state, idx) => (
-                  <button 
-                    key={idx}
-                    onClick={() => setSelectedTerritoryState(state)}
-                    className={`w-full py-5 px-7 text-left text-xs font-black uppercase tracking-widest border transition-all flex items-center justify-between rounded ${selectedTerritoryState === state ? 'bg-[#E31837] border-[#E31837] text-white shadow-md shadow-red-500/10' : 'border-slate-200 bg-white text-slate-600 hover:text-slate-900 hover:border-slate-300'}`}
-                  >
-                    <span>{state} Sector</span>
-                    <ArrowRight className="w-5 h-5" />
-                  </button>
-                ))}
+              <div className="flex flex-wrap gap-4">
+                <button 
+                    onClick={() => setSelectedTerritoryState('Karnataka')}
+                    className={`px-6 py-3 font-bold rounded text-sm transition-all shadow-sm ${selectedTerritoryState === 'Karnataka' ? 'bg-[#E31837] text-white' : 'bg-slate-50 border border-slate-200 text-slate-800 hover:border-slate-300'}`}
+                >
+                  KARNATAKA SECTOR
+                </button>
+                <button 
+                    onClick={() => setSelectedTerritoryState('Tamil Nadu')}
+                    className={`px-6 py-3 font-bold rounded text-sm transition-all shadow-sm ${selectedTerritoryState === 'Tamil Nadu' ? 'bg-[#E31837] text-white' : 'bg-slate-50 border border-slate-200 text-slate-800 hover:border-slate-300'}`}
+                >
+                  TAMIL NADU SECTOR
+                </button>
               </div>
             </div>
-
             <div className="w-full">
               <div className="bg-white border border-slate-200 rounded-xl p-8 md:p-10 shadow-xl relative">
                 <div className="flex justify-between items-center mb-8 pb-4 border-b border-slate-150">
                   <span className="text-xs uppercase font-bold tracking-widest text-slate-400">Regional Cluster Registry</span>
-                  <span className="text-xs font-mono text-[#E31837] uppercase">{selectedTerritoryState} Sector</span>
+                  <span className="text-xs font-mono text-[#E31837] uppercase">{selectedTerritoryState} SECTOR</span>
                 </div>
 
                 <div className="space-y-4">
                   {TERRITORY_REGIONS[selectedTerritoryState].map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center p-5 bg-slate-50 border border-slate-200/60 rounded">
-                      <div className="flex items-center gap-4">
-                        <MapPin className="w-5 h-4 text-slate-400" />
+                    <div key={idx} className="flex justify-between items-center p-4 bg-slate-50 border border-slate-200/60 rounded">
+                      <div className="flex items-center gap-3">
+                        <MapPin className="w-4 h-4 text-slate-400" />
                         <span className="font-bold text-slate-900 text-sm">{item.city}</span>
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-sm bg-emerald-50 text-emerald-600 border border-emerald-200">
+                      <span className={`text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-sm ${item.status.includes('Closed') ? 'bg-red-50 text-red-600 border border-red-200' : item.status.includes('Limited') ? 'bg-amber-50 text-amber-600 border border-amber-200' : 'bg-emerald-50 text-emerald-600 border border-emerald-200'}`}>
                         {item.status}
                       </span>
                     </div>
@@ -509,14 +549,12 @@ export default function App() {
 
                 <div className="mt-8 pt-6 border-t border-slate-200 text-center">
                   <button onClick={scrollToForm} className="w-full bg-slate-900 hover:bg-[#E31837] text-white font-black uppercase tracking-widest text-xs py-3.5 px-6 transition-all rounded shadow">
-                    Reserve Your Slot In {selectedTerritoryState} Today
+                    RESERVE YOUR SLOT IN {selectedTerritoryState.toUpperCase()} TODAY
                   </button>
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
@@ -591,7 +629,6 @@ export default function App() {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             
-            {/* Left Column */}
             <div className="flex flex-col">
               <span className="text-[#E31837] text-xs font-bold tracking-[0.2em] uppercase mb-4 block self-start">Dealer Profile</span>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-6">Eligible Commercial Segments</h2>
@@ -600,22 +637,21 @@ export default function App() {
               </p>
 
               <div className="space-y-5">
-                {ELIGIBLE_PROFILES.map((item, idx) => (
+                {ELIGIBLE_LEFT.map((item, idx) => (
                   <div key={idx} className="p-6 md:p-8 bg-slate-50/50 border border-slate-200 rounded-xl hover:shadow-md transition-shadow">
-                    <h4 className="font-bold text-slate-900 text-lg mb-2">{item.segment}</h4>
-                    <p className="text-sm text-slate-500 font-light">{item.qualification}</p>
+                    <h4 className="font-bold text-slate-900 text-lg mb-2">{item.title}</h4>
+                    <p className="text-sm text-slate-500 font-light">{item.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right Column with alignment offset */}
             <div className="w-full lg:pt-[216px]">
               <div className="bg-slate-50/30 border border-slate-200 p-8 md:p-10 rounded-2xl shadow-sm">
                 <span className="bg-[#E31837] text-white text-[11px] font-bold tracking-widest uppercase px-2 py-1 inline-block mb-8 rounded-sm">Dealer Verification Parameters</span>
                 
                 <div className="space-y-8">
-                  {VERIFICATION_PARAMS.map((item, idx) => (
+                  {ELIGIBLE_RIGHT.map((item, idx) => (
                     <div key={idx} className="flex">
                       <div className="w-12 h-12 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center shrink-0 mr-5">
                         <Check className="w-6 h-6 text-[#E31837]" strokeWidth={2.5} />
@@ -683,22 +719,20 @@ export default function App() {
             <span className="text-[#E31837] text-xs font-bold tracking-[0.2em] uppercase">Trust Statement</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 mb-2 max-w-4xl mx-auto">
-            Indus Inside. Peace of Mind Outside. <br/>
+            Built on Trust. Driven by Performance.
           </h2>
+          <h3 className="text-2xl md:text-4xl font-black text-slate-900 mb-4">Focused on Dealer Success</h3>
+          <p className="text-lg font-bold text-[#E31837] tracking-widest uppercase mb-12">INDUS INSIDE, PEACE OF MIND OUTSIDE</p>
 
-          {/* Certifications Highlight */}
-          <div className="pt-12 border-t border-slate-100">
-             <span className="text-xs uppercase font-bold tracking-widest text-slate-400 block mb-8">Globally Recognized Certifications</span>
-             <div className="flex flex-wrap justify-center gap-6">
-               <div className="px-6 py-3 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm tracking-widest uppercase font-black shadow-sm flex items-center gap-2">
-                 <Award className="w-5 h-5 text-[#E31837]"/> ISO 9001:2015
-               </div>
-               <div className="px-6 py-3 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm tracking-widest uppercase font-black shadow-sm flex items-center gap-2">
-                 <ShieldCheck className="w-5 h-5 text-[#E31837]"/> BIS Standard IS 1786
-               </div>
-               <div className="px-6 py-3 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm tracking-widest uppercase font-black shadow-sm flex items-center gap-2">
-                 <Zap className="w-5 h-5 text-[#E31837]"/> Fe-550D High-Ductility
-               </div>
+          <div className="pt-12 border-t border-slate-150 flex flex-wrap justify-center gap-6">
+             <div className="px-6 py-3 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm tracking-widest uppercase font-black shadow-sm flex items-center gap-2">
+               <Award className="w-5 h-5 text-[#E31837]"/> ISO 9001:2015
+             </div>
+             <div className="px-6 py-3 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm tracking-widest uppercase font-black shadow-sm flex items-center gap-2">
+               <ShieldCheck className="w-5 h-5 text-[#E31837]"/> BIS STANDARD IS 1786
+             </div>
+             <div className="px-6 py-3 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm tracking-widest uppercase font-black shadow-sm flex items-center gap-2">
+               <Zap className="w-5 h-5 text-[#E31837]"/> FE-550D HIGH-DUCTILITY
              </div>
           </div>
         </div>
@@ -723,7 +757,7 @@ export default function App() {
                   <span className="text-lg md:text-xl font-bold tracking-tight text-slate-800 group-hover:text-[#E31837] transition-colors pr-6">{faq.q}</span>
                   <ChevronDown className={`w-5 h-5 transition-transform duration-500 ${openFaq === idx ? 'rotate-180 text-[#E31837]' : 'text-slate-400'}`} />
                 </button>
-                <div className={`overflow-hidden transition-all duration-500 ease-in-out ${openFaq === idx ? 'max-h-64 pb-7 opacity-100' : 'max-h-0 opacity-0'}`}>
+                <div className={`overflow-hidden transition-all duration-550 ease-in-out ${openFaq === idx ? 'max-h-[300px] pb-7 opacity-100' : 'max-h-0 opacity-0'}`}>
                   <p className="text-slate-500 leading-relaxed font-light text-base">{faq.a}</p>
                 </div>
               </div>
@@ -739,16 +773,12 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-16 mb-20">
             
             <div className="md:col-span-7 lg:col-span-8">
-              <div className="flex items-center mb-6">
-                <img src="Indus-logo.svg" alt="Indus 555-D TMT" className="h-24 w-auto object-contain" />
+              <div className="flex items-center gap-3 mb-6">
+                <img src="logo.png" alt="Indus TMT Logo" className="h-16 lg:h-20 w-auto object-contain" />
               </div>
               <p className="text-slate-500 font-light text-sm leading-relaxed max-w-sm mb-8">
                 Pioneering regional structural reinforcement structures since 1996. We fabricate the high ductility steel that anchors commercial futures.
               </p>
-              <div className="flex gap-4">
-                 <div className="w-10 h-10 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:border-slate-400 transition-all cursor-pointer rounded-sm bg-white">In</div>
-                 <div className="w-10 h-10 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:border-slate-400 transition-all cursor-pointer rounded-sm bg-white">X</div>
-              </div>
             </div>
             
             <div className="md:col-span-5 lg:col-span-4">
@@ -758,7 +788,7 @@ export default function App() {
                 <li>Bangalore, Karnataka</li>
                 <li>India - 560001</li>
                 <li className="pt-4 text-slate-900 font-black tracking-normal lowercase">global@industmt.com</li>
-                <li className="text-slate-900 font-black tracking-normal lowercase">+91 98765 43210</li>
+                <li className="text-slate-900 font-black tracking-normal lowercase">+91 9353410325</li>
               </ul>
             </div>
 
@@ -776,7 +806,7 @@ export default function App() {
 
       {/* --- FLOATING ACTIONS --- */}
       <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
-        <a href="https://api.whatsapp.com/send/?phone=919242777777&text&type=phone_number&app_absent=0" target="_blank" rel="noreferrer" className="w-12 h-12 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110">
+        <a href="https://wa.me/919353410325" target="_blank" rel="noreferrer" className="w-12 h-12 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110">
           <MessageCircle className="w-6 h-6" />
         </a>
       </div>
