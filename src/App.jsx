@@ -50,21 +50,21 @@ const MANUFACTURING_STAGES = [
     id: 0,
     title: "Raw Materials to Molten Iron",
     desc: "Selective low sulphur, low phosphorus sponge iron pellets and recycled green steel is used to produce molten steel by adding quality micro elements in stage one.",
-    image: "About us 1.jpg",
+    image: "About us 1.png",
     icon: HardHat
   },
   {
     id: 1,
     title: "Molten Iron to Primary Steel",
     desc: "This molten steel is casted into quality Billets through South India's first BULLET CASTER and rolled in the state of art rolling mill into rods of required diameters.",
-    image: "About us 2.jpg",
+    image: "About us 2.png",
     icon: Factory
   },
   {
     id: 2,
     title: "Thermo Mechanical Treatment",
     desc: "The hot rolled bars released from rolling mill are passed through a technological innovative tmt box with a combination of pipe and nozzle system. It cools down the outer core rapidly and self tempering happens where the heat from the core passes to the bar surface to harden the TMT bar outer core. Finally atmospheric cooling ensure the austenitic core turns as ferrite-pearlite structure. This make Indus TMT more ductile and with higher tensile strength.",
-    image: "About us 3.jpg",
+    image: "About us 3.png",
     icon: Zap
   }
 ];
@@ -381,7 +381,7 @@ export default function App() {
           {/* Logo Aligned Center vertically with Nav */}
           <div className="flex items-center">
             <img 
-              src="logo.png" 
+              src="Indus-logo.svg" 
               alt="Indus TMT Logo" 
               className="h-14 md:h-20 lg:h-24 w-auto object-contain" 
             />
@@ -774,7 +774,7 @@ export default function App() {
             
             <div className="md:col-span-7 lg:col-span-8">
               <div className="flex items-center gap-3 mb-6">
-                <img src="logo.png" alt="Indus TMT Logo" className="h-16 lg:h-20 w-auto object-contain" />
+                <img src="Indus-logo.svg" alt="Indus TMT Logo" className="h-16 lg:h-20 w-auto object-contain" />
               </div>
               <p className="text-slate-500 font-light text-sm leading-relaxed max-w-sm mb-8">
                 Pioneering regional structural reinforcement structures since 1996. We fabricate the high ductility steel that anchors commercial futures.
