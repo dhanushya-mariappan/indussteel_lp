@@ -317,7 +317,7 @@ export default function App() {
   const triggerBrochureDownload = () => {
     const link = document.createElement('a');
     link.href = 'https://industmt.com/brochure.pdf'; 
-    link.download = 'Indus_TMT_Corporate_Profile.pdf';
+    link.download = 'Indus-Catalog.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -536,7 +536,6 @@ export default function App() {
             </p>
             <button onClick={triggerBrochureDownload} className="inline-flex items-center text-slate-900 font-bold tracking-widest text-xs uppercase hover:text-[#E31837] transition-all group border border-slate-300 bg-white px-6 py-3.5 rounded shadow-sm">
               <Download className="w-4 h-4 mr-2" /> Download Corporate Profile Document
-              <a href="pdf/Indus-Catalog.pdf" download>
             </button>
           </div>
 
