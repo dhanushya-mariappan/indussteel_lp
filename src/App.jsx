@@ -323,6 +323,7 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
         <span className="flex items-center"><ShieldCheck className="w-4 h-4 mr-1.5 text-emerald-600" /> Secure Corporate Link</span>
         <span>ISO 27001 Compliant</span>
       </div>
+        </div>
     </form>
   );
 };
