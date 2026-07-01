@@ -277,20 +277,28 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="relative">
-             <select required defaultValue="" className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none">
-<select name="businessType" required>
-  <option value="">Select Business Type</option>
-  <option value="retailer">Retailer</option>
-  <option value="dealer">Dealer</option>
-  <option value="distributor">Distributor</option>
-  <option value="contractor">Contractor</option>
-  <option value="entrepreneur">New Entrepreneur</option>
-  <option value="other">Other</option>
-            </select>
-            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">Business Category *</label>
-          </div>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div className="relative">
+    <select
+      name="businessType"
+      required
+      defaultValue=""
+      className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none"
+    >
+      <option value="">Select Business Type</option>
+      <option value="retailer">Retailer</option>
+      <option value="dealer">Dealer</option>
+      <option value="distributor">Distributor</option>
+      <option value="contractor">Contractor</option>
+      <option value="entrepreneur">New Entrepreneur</option>
+      <option value="other">Other</option>
+    </select>
+
+    <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">
+      Business Type *
+    </label>
+  </div>
+</div>
            <div className="relative">
             <input type="text" id={`${id}-gst`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="GST Number (Optional)" />
             <label htmlFor={`${id}-gst`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">GST Number</label>
