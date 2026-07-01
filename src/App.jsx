@@ -299,11 +299,20 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
     </label>
   </div>
 </div>
-           <div className="relative">
-            <input type="text" id={`${id}-gst`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="GST Number (Optional)" />
-            <label htmlFor={`${id}-gst`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">GST Number</label>
-          </div>
-      </div>
+          <div className="relative">
+  <input
+    type="text"
+    id={`${id}-gst`}
+    className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded"
+    placeholder="GST Number (Optional)"
+  />
+  <label
+    htmlFor={`${id}-gst`}
+    className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all"
+  >
+    GST Number
+  </label>
+</div>
 
       <button type="submit" className="w-full mt-8 bg-[#E31837] hover:bg-[#c6112d] active:scale-[0.98] text-white font-extrabold py-4 px-6 transition-all duration-300 flex items-center justify-between group rounded-lg shadow-lg shadow-red-500/10">
         <span className="tracking-widest uppercase text-xs">Become an Indus TMT Dealer Now</span>
