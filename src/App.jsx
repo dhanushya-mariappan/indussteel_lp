@@ -74,7 +74,7 @@ const TERRITORY_REGIONS = {
     { city: "Bengaluru Metropolitan Region", status: "Active Expansion" },
     { city: "Mysuru & South Karnataka", status: "Available" },
     { city: "Hubli-Dharwad & North Karnataka", status: "Available" },
-    { city: "Mangaluru & Coastal Zone", status: "Active Search" },
+    { city: "Tumkur", status: "Active Search" },
     { city: "Other Regions", status: "Available" }
   ],
   "Tamil Nadu": [
@@ -242,7 +242,7 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="relative">
             <input required type="text" maxLength="6" id={`${id}-pincode`} value={pincode} onChange={handlePincodeChange} className={`peer w-full bg-slate-50 border ${pincodeError ? 'border-red-400' : 'border-slate-200'} focus:border-[#E31837] focus:bg-white p-3 pr-10 text-sm text-slate-900 outline-none transition-colors rounded`} placeholder="6-Digit Pincode" />
-            <label htmlFor={`${id}-pincode`} className={`absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold ${pincodeError ? 'text-red-500' : 'text-slate-500'} peer-focus:text-[#E31837] transition-all`}>Pincode *</label>
+            <label htmlFor={`${id}-pincode`} className={`absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold ${pincodeError ? 'text-red-500' : 'text-slate-500'} peer-focus:text-[#E31837] transition-all`}>My Shop Pincode *</label>
             {isPincodeLoading && (
               <div className="absolute right-3 top-3.5 w-4 h-4 border-2 border-slate-300 border-t-[#E31837] rounded-full animate-spin"></div>
             )}
@@ -280,13 +280,16 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="relative">
              <select required defaultValue="" className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none">
-              <option value="" disabled hidden>Average Monthly Steel Sales</option>
-              <option value="0-25">0 - 25 Tons</option>
-              <option value="25-50">25 - 50 Tons</option>
-              <option value="50-100">50 - 100 Tons</option>
-              <option value="100+">100+ Tons</option>
+<select name="businessType" required>
+  <option value="">Select Business Type</option>
+  <option value="retailer">Retailer</option>
+  <option value="dealer">Dealer</option>
+  <option value="distributor">Distributor</option>
+  <option value="contractor">Contractor</option>
+  <option value="entrepreneur">New Entrepreneur</option>
+  <option value="other">Other</option>
             </select>
-            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">Avg. Monthly Sales *</label>
+            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">Business Category *</label>
           </div>
            <div className="relative">
             <input type="text" id={`${id}-gst`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="GST Number (Optional)" />
@@ -443,15 +446,15 @@ const triggerBrochureDownload = () => {
               </h1>
               
               <p className="text-slate-500 text-lg md:text-xl max-w-xl leading-relaxed mb-10 font-light">
-                Become the Authorized Indus TMT Distribution Partner. Tap into South India's high-velocity infrastructure boom with verified, premium-grade steel and protected territorial allocations.
+                Expand your business with one of South India's trusted TMT steel brands. Offer premium-grade Fe-550D TMT bars preferred by builders, contractors, and infrastructure projects across the region.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <button onClick={scrollToForm} className="bg-[#E31837] hover:bg-red-700 text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center group rounded shadow-lg shadow-red-500/10">
-                  Secure Partnership Slot <ArrowRight className="ml-3 w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                  Join the Indus Dealer Network <ArrowRight className="ml-3 w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </button>
-                <a href="tel:+919353410325" className="bg-[#0F172A] hover:bg-[#1e293b] text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center rounded shadow-lg">
-                  <Phone className="w-4 h-4 mr-2" /> Talk to Our Executive
+                <a href="tel:+919242777777" className="bg-[#0F172A] hover:bg-[#1e293b] text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center rounded shadow-lg">
+                  <Phone className="w-4 h-4 mr-2" /> Speak with a Dealer Expert
                 </a>
               </div>
             </div>
@@ -722,7 +725,7 @@ const triggerBrochureDownload = () => {
             Built on Trust. Driven by Performance.
           </h2>
           <h3 className="text-2xl md:text-4xl font-black text-slate-900 mb-4">Focused on Dealer Success</h3>
-          <p className="text-lg font-bold text-[#E31837] tracking-widest uppercase mb-12">INDUS INSIDE, PEACE OF MIND OUTSIDE</p>
+          <p className="text-lg font-bold text-[#E31837] tracking-widest uppercase mb-12">"INDUS INSIDE, PEACE OF MIND OUTSIDE"</p>
 
           <div className="pt-12 border-t border-slate-150 flex flex-wrap justify-center gap-6">
              <div className="px-6 py-3 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm tracking-widest uppercase font-black shadow-sm flex items-center gap-2">
@@ -787,8 +790,8 @@ const triggerBrochureDownload = () => {
                 <li>Industrial Estate Cluster</li>
                 <li>Bangalore, Karnataka</li>
                 <li>India - 560001</li>
-                <li className="pt-4 text-slate-900 font-black tracking-normal lowercase">global@industmt.com</li>
-                <li className="text-slate-900 font-black tracking-normal lowercase">+91 9353410325</li>
+                <li className="pt-4 text-slate-900 font-black tracking-normal lowercase">enquiry@indussteels.com</li>
+                <li className="text-slate-900 font-black tracking-normal lowercase">+91 9242777777</li>
               </ul>
             </div>
 
