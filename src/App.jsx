@@ -299,7 +299,6 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
       >
         GST Number
       </label>
-    </div>
   </div>
 
   {businessType === "existing" && (
