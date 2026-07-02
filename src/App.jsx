@@ -209,128 +209,89 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
   }
 
   return (
-    <form id={id} onSubmit={handleSubmit} className="p-8 md:p-10 bg-white border border-slate-200/80 shadow-[0_30px_70px_rgba(0,0,0,0.06)] rounded-xl relative">
-      <div className="absolute -top-px left-10 right-10 h-[2px] bg-gradient-to-r from-transparent via-[#E31837] to-transparent"></div>
-      
-      <div className="mb-8 text-center md:text-left">
-        <div className="inline-flex items-center gap-2 mb-2">
-          <span className="w-2 h-2 rounded-full bg-[#E31837] animate-ping"></span>
-          <span className="text-[#E31837] text-xs font-bold tracking-[0.2em] uppercase">Executive Registry</span>
-        </div>
-        <h3 className="text-3xl font-black tracking-tight text-slate-900">Apply for Partnership</h3>
-        <p className="text-slate-500 text-sm mt-2">Submit preliminary commercial records for prioritized evaluation.</p>
-      </div>
+    <div className="space-y-6">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="relative">
+      <select
+        name="businessType"
+        required
+        value={businessType}
+        onChange={(e) => setBusinessType(e.target.value)}
+        className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none"
+      >
+        <option value="" disabled hidden>
+          Select Business Status
+        </option>
+        <option value="existing">
+          I already sell steel in my shop
+        </option>
+        <option value="new">
+          I am newly wanting to sell steel in my shop
+        </option>
+      </select>
 
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="relative">
-            <input required type="text" id={`${id}-name`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Full Name" />
-            <label htmlFor={`${id}-name`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">Full Name *</label>
-          </div>
-          <div className="relative">
-            <input required type="tel" id={`${id}-phone`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Mobile Number" />
-            <label htmlFor={`${id}-phone`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">Mobile *</label>
-          </div>
-        </div>
+      <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">
+        Business Status *
+      </label>
+    </div>
 
-        <div className="relative">
-          <input required type="text" id={`${id}-company`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Company Name" />
-          <label htmlFor={`${id}-company`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">Registered Firm Name *</label>
-        </div>
+    <div className="relative">
+      <input
+        type="text"
+        id={`${id}-gst`}
+        className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded"
+        placeholder="GST Number (Optional)"
+      />
+      <label
+        htmlFor={`${id}-gst`}
+        className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all"
+      >
+        GST Number
+      </label>
+    </div>
+  </div>
 
-        {/* Dynamic Location Lookup Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="relative">
-            <input required type="text" maxLength="6" id={`${id}-pincode`} value={pincode} onChange={handlePincodeChange} className={`peer w-full bg-slate-50 border ${pincodeError ? 'border-red-400' : 'border-slate-200'} focus:border-[#E31837] focus:bg-white p-3 pr-10 text-sm text-slate-900 outline-none transition-colors rounded`} placeholder="6-Digit Pincode" />
-            <label htmlFor={`${id}-pincode`} className={`absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold ${pincodeError ? 'text-red-500' : 'text-slate-500'} peer-focus:text-[#E31837] transition-all`}>My Shop Pincode *</label>
-            {isPincodeLoading && (
-              <div className="absolute right-3 top-3.5 w-4 h-4 border-2 border-slate-300 border-t-[#E31837] rounded-full animate-spin"></div>
-            )}
-            {!isPincodeLoading && city && !pincodeError && (
-              <CheckCircle2 className="absolute right-3 top-3.5 w-4 h-4 text-emerald-500" />
-            )}
-            {pincodeError && <span className="absolute -bottom-5 left-1 text-[10px] text-red-500">{pincodeError}</span>}
-          </div>
-          
-          <div className="relative">
-             {areas.length > 0 ? (
-                <select required value={selectedArea} onChange={(e) => setSelectedArea(e.target.value)} className="peer w-full bg-emerald-50/50 border border-emerald-200 focus:border-emerald-500 focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none cursor-pointer">
-                  {areas.map((area, index) => (
-                    <option key={index} value={area}>{area}</option>
-                  ))}
-                </select>
-             ) : (
-                <input type="text" disabled className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-400 outline-none transition-colors rounded cursor-not-allowed" placeholder="Area / Locality" />
-             )}
-            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">Area (Auto) *</label>
-          </div>
-        </div>
+  {businessType === "existing" && (
+    <div className="relative animate-in fade-in slide-in-from-top-2 duration-300">
+      <select
+        required
+        defaultValue=""
+        className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none"
+      >
+        <option value="" disabled hidden>
+          Select Average Monthly Steel Sales
+        </option>
+        <option value="0-25">0 - 25 Tons</option>
+        <option value="25-50">25 - 50 Tons</option>
+        <option value="50-100">50 - 100 Tons</option>
+        <option value="100-500">100 - 500 Tons</option>
+        <option value="500+">500+ Tons</option>
+      </select>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-           <div className="relative">
-            <input required type="text" readOnly value={city} id={`${id}-city`} className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-600 outline-none rounded" placeholder="City" />
-            <label htmlFor={`${id}-city`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">City (Auto) *</label>
-          </div>
-          <div className="relative">
-            <input required type="text" readOnly value={state} id={`${id}-state`} className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-600 outline-none rounded" placeholder="State" />
-            <label htmlFor={`${id}-state`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">State (Auto) *</label>
-          </div>
-        </div>
+      <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">
+        Avg. Monthly Sales *
+      </label>
+    </div>
+  )}
 
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="relative">
-            <select
-              name="businessType"
-              required
-              value={businessType}
-              onChange={(e) => setBusinessType(e.target.value)}
-              className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none"
-            >
-              <option value="" disabled hidden>Select Business Status</option>
-              <option value="existing">I already sell steel in my shop</option>
-              <option value="new">I am newly wanting to sell steel in my shop</option>
-            </select>
+  <button
+    type="submit"
+    className="w-full mt-8 bg-[#E31837] hover:bg-[#c6112d] active:scale-[0.98] text-white font-extrabold py-4 px-6 transition-all duration-300 flex items-center justify-between group rounded-lg shadow-lg shadow-red-500/10"
+  >
+    <span className="tracking-widest uppercase text-xs">
+      Become an Indus TMT Dealer Now
+    </span>
+    <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+  </button>
 
-            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">
-              Business Status *
-            </label>
-          </div>
-
-          <div className="relative">
-            <input
-              type="text"
-              id={`${id}-gst`}
-              className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded"
-              placeholder="GST Number (Optional)"
-            />
-            <label
-              htmlFor={`${id}-gst`}
-              className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all"
-            >
-              GST Number
-            </label>
-          </div>
-        </div>
-
-        {businessType === 'existing' && (
-          <div className="relative animate-in fade-in slide-in-from-top-2 duration-300">
-             <select required defaultValue="" className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none">
-              <option value="" disabled hidden>Select Average Monthly Steel Sales</option>
-              <option value="0-25">0 - 25 Tons</option>
-              <option value="25-50">25 - 50 Tons</option>
-              <option value="50-100">50 - 100 Tons</option>
-              <option value="100-500">100 - 500 Tons</option>
-              <option value="500+">500+ Tons</option>
-            </select>
-            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">Avg. Monthly Sales *</label>
-          </div>
-        )}
-      <button type="submit" className="w-full mt-8 bg-[#E31837] hover:bg-[#c6112d] active:scale-[0.98] text-white font-extrabold py-4 px-6 transition-all duration-300 flex items-center justify-between group rounded-lg shadow-lg shadow-red-500/10">
-        <span className="tracking-widest uppercase text-xs">Become an Indus TMT Dealer Now</span>
-        <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-      </button>
-
+  <div className="mt-6 flex items-center justify-between text-xs text-slate-400">
+    <span className="flex items-center">
+      <ShieldCheck className="w-4 h-4 mr-1.5 text-emerald-600" />
+      Secure Corporate Link
+    </span>
+    <span>ISO 27001 Compliant</span>
+  </div>
+</div>
       <div className="mt-6 flex items-center justify-between text-xs text-slate-400">
         <span className="flex items-center"><ShieldCheck className="w-4 h-4 mr-1.5 text-emerald-600" /> Secure Corporate Link</span>
         <span>ISO 27001 Compliant</span>
