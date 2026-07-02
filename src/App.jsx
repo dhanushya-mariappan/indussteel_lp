@@ -88,7 +88,7 @@ const TERRITORY_REGIONS = {
 
 const ELIGIBLE_LEFT = [
   { title: "Minimum Sales Volume", desc: "Average steel sales of at least 25 tons per month over the last 6 months." },
-  { title: "Business Type", desc: "Multi-brand TMT dealers and building material dealers are eligible to apply." },
+  { title: "Business Status", desc: "Multi-brand TMT dealers and building material dealers are eligible to apply." },
   { title: "Shop Size & Infrastructure", desc: "Minimum 600 sq. ft. shop with adequate storage and accessibility for heavy vehicles." },
   { title: "Stock Holding Capacity", desc: "Ability to maintain a minimum live stock of 20 tons with proper storage facilities." }
 ];
@@ -277,44 +277,55 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
           </div>
         </div>
 
-<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-  <div className="relative">
-    <select
-      name="businessType"
-      required
-      defaultValue=""
-      className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none"
-    >
-      <option value="">Select Business Type</option>
-      <option value="retailer">Retailer</option>
-      <option value="dealer">Dealer</option>
-      <option value="distributor">Distributor</option>
-      <option value="contractor">Contractor</option>
-      <option value="entrepreneur">New Entrepreneur</option>
-      <option value="other">Other</option>
-    </select>
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="relative">
+            <select
+              name="businessType"
+              required
+              value={businessType}
+              onChange={(e) => setBusinessType(e.target.value)}
+              className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none"
+            >
+              <option value="" disabled hidden>Select Business Status</option>
+              <option value="existing">I already sell steel in my shop</option>
+              <option value="new">I am newly wanting to sell steel in my shop</option>
+            </select>
 
-    <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">
-      Business Type *
-    </label>
-  </div>
+            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">
+              Business Status *
+            </label>
+          </div>
 
-  <div className="relative">
-    <input
-      type="text"
-      id={`${id}-gst`}
-      className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded"
-      placeholder="GST Number (Optional)"
-    />
-    <label
-      htmlFor={`${id}-gst`}
-      className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all"
-    >
-      GST Number
-    </label>
-  </div>
-</div>
+          <div className="relative">
+            <input
+              type="text"
+              id={`${id}-gst`}
+              className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded"
+              placeholder="GST Number (Optional)"
+            />
+            <label
+              htmlFor={`${id}-gst`}
+              className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all"
+            >
+              GST Number
+            </label>
+          </div>
+        </div>
 
+        {businessType === 'existing' && (
+          <div className="relative animate-in fade-in slide-in-from-top-2 duration-300">
+             <select required defaultValue="" className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none">
+              <option value="" disabled hidden>Select Average Monthly Steel Sales</option>
+              <option value="0-25">0 - 25 Tons</option>
+              <option value="25-50">25 - 50 Tons</option>
+              <option value="50-100">50 - 100 Tons</option>
+              <option value="100-500">100 - 500 Tons</option>
+              <option value="500+">500+ Tons</option>
+            </select>
+            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">Avg. Monthly Sales *</label>
+          </div>
+        )}
       <button type="submit" className="w-full mt-8 bg-[#E31837] hover:bg-[#c6112d] active:scale-[0.98] text-white font-extrabold py-4 px-6 transition-all duration-300 flex items-center justify-between group rounded-lg shadow-lg shadow-red-500/10">
         <span className="tracking-widest uppercase text-xs">Become an Indus TMT Dealer Now</span>
         <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
@@ -743,7 +754,7 @@ const triggerBrochureDownload = () => {
             Built on Trust. Driven by Performance.
           </h2>
           <h3 className="text-2xl md:text-4xl font-black text-slate-900 mb-4">Focused on Dealer Success</h3>
-          <p className="text-lg font-bold text-[#E31837] tracking-widest uppercase mb-12">"INDUS INSIDE, PEACE OF MIND OUTSIDE"</p>
+          <p className="text-lg font-bold text-[#E31837] tracking-widest uppercase mb-12">"INDUS STEEL INSIDE, PEACE OF MIND OUTSIDE"</p>
 
           <div className="pt-12 border-t border-slate-150 flex flex-wrap justify-center gap-6">
              <div className="px-6 py-3 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm tracking-widest uppercase font-black shadow-sm flex items-center gap-2">
