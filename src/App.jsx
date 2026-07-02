@@ -193,22 +193,73 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
     setSubmitted(true);
   };
 
-  if (submitted) {
-    return (
-      <div className="p-12 text-center flex flex-col items-center justify-center h-full min-h-[450px] bg-white border border-slate-200 shadow-2xl rounded-xl relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#E31837]/5 to-transparent pointer-events-none"></div>
-        <div className="w-20 h-20 bg-[#E31837]/10 border border-[#E31837]/30 rounded-full flex items-center justify-center mb-6">
-          <Sparkles className="w-10 h-10 text-[#E31837]" />
+<form id={id} onSubmit={handleSubmit} className="p-8 md:p-10 bg-white border border-slate-200/80 shadow-[0_30px_70px_rgba(0,0,0,0.06)] rounded-xl relative">
+      <div className="absolute -top-px left-10 right-10 h-[2px] bg-gradient-to-r from-transparent via-[#E31837] to-transparent"></div>
+      
+      <div className="mb-8 text-center md:text-left">
+        <div className="inline-flex items-center gap-2 mb-2">
+          <span className="w-2 h-2 rounded-full bg-[#E31837] animate-ping"></span>
+          <span className="text-[#E31837] text-xs font-bold tracking-[0.2em] uppercase">Executive Registry</span>
         </div>
-        <h3 className="text-3xl font-black text-slate-900 tracking-tight mb-4">Application Logged</h3>
-        <p className="text-slate-500 text-base leading-relaxed max-w-sm">
-          Your credentials have bypassed the queue. A Senior Commercial Director will initiate contact with your office within 12 hours.
-        </p>
+        <h3 className="text-3xl font-black tracking-tight text-slate-900">Apply for Partnership</h3>
+        <p className="text-slate-500 text-sm mt-2">Submit preliminary commercial records for prioritized evaluation.</p>
       </div>
-    );
-  }
 
-  return (
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="relative">
+            <input required type="text" id={`${id}-name`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Full Name" />
+            <label htmlFor={`${id}-name`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">Full Name *</label>
+          </div>
+          <div className="relative">
+            <input required type="tel" id={`${id}-phone`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Mobile Number" />
+            <label htmlFor={`${id}-phone`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">Mobile *</label>
+          </div>
+        </div>
+
+        <div className="relative">
+          <input required type="text" id={`${id}-company`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Company Name" />
+          <label htmlFor={`${id}-company`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">Registered Firm Name *</label>
+        </div>
+
+        {/* Dynamic Location Lookup Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="relative">
+            <input required type="text" maxLength="6" id={`${id}-pincode`} value={pincode} onChange={handlePincodeChange} className={`peer w-full bg-slate-50 border ${pincodeError ? 'border-red-400' : 'border-slate-200'} focus:border-[#E31837] focus:bg-white p-3 pr-10 text-sm text-slate-900 outline-none transition-colors rounded`} placeholder="6-Digit Pincode" />
+            <label htmlFor={`${id}-pincode`} className={`absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold ${pincodeError ? 'text-red-500' : 'text-slate-500'} peer-focus:text-[#E31837] transition-all`}>My Shop Pincode *</label>
+            {isPincodeLoading && (
+              <div className="absolute right-3 top-3.5 w-4 h-4 border-2 border-slate-300 border-t-[#E31837] rounded-full animate-spin"></div>
+            )}
+            {!isPincodeLoading && city && !pincodeError && (
+              <CheckCircle2 className="absolute right-3 top-3.5 w-4 h-4 text-emerald-500" />
+            )}
+            {pincodeError && <span className="absolute -bottom-5 left-1 text-[10px] text-red-500">{pincodeError}</span>}
+          </div>
+          
+          <div className="relative">
+             {areas.length > 0 ? (
+                <select required value={selectedArea} onChange={(e) => setSelectedArea(e.target.value)} className="peer w-full bg-emerald-50/50 border border-emerald-200 focus:border-emerald-500 focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none cursor-pointer">
+                  {areas.map((area, index) => (
+                    <option key={index} value={area}>{area}</option>
+                  ))}
+                </select>
+             ) : (
+                <input type="text" disabled className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-400 outline-none transition-colors rounded cursor-not-allowed" placeholder="Area / Locality" />
+             )}
+            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">Area (Auto) *</label>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+           <div className="relative">
+            <input required type="text" readOnly value={city} id={`${id}-city`} className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-600 outline-none rounded" placeholder="City" />
+            <label htmlFor={`${id}-city`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">City (Auto) *</label>
+          </div>
+          <div className="relative">
+            <input required type="text" readOnly value={state} id={`${id}-state`} className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-600 outline-none rounded" placeholder="State" />
+            <label htmlFor={`${id}-state`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">State (Auto) *</label>
+          </div>
+        </div>
     <div className="space-y-6">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div className="relative">
