@@ -17,8 +17,7 @@ const BRAND_COLORS = {
   neutralMuted: '#64748B'
 };
 
-// Reusable SVG components for generic icons (MOVED ABOVE BENEFITS ARRAY)
-// Fixing the initialization order so they are not evaluated as 'undefined' when constructing the array.
+// Reusable SVG components for generic icons
 const Globe = ({ className }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <circle cx="12" cy="12" r="10"></circle>
@@ -50,21 +49,21 @@ const MANUFACTURING_STAGES = [
     id: 0,
     title: "Raw Materials to Molten Iron",
     desc: "Selective low sulphur, low phosphorus sponge iron pellets and recycled green steel is used to produce molten steel by adding quality micro elements in stage one.",
-    image: "About us 1.png",
+    image: "About us 1.jpg",
     icon: HardHat
   },
   {
     id: 1,
     title: "Molten Iron to Primary Steel",
     desc: "This molten steel is casted into quality Billets through South India's first BULLET CASTER and rolled in the state of art rolling mill into rods of required diameters.",
-    image: "About us 2.png",
+    image: "About us 2.jpg",
     icon: Factory
   },
   {
     id: 2,
     title: "Thermo Mechanical Treatment",
     desc: "The hot rolled bars released from rolling mill are passed through a technological innovative tmt box with a combination of pipe and nozzle system. It cools down the outer core rapidly and self tempering happens where the heat from the core passes to the bar surface to harden the TMT bar outer core. Finally atmospheric cooling ensure the austenitic core turns as ferrite-pearlite structure. This make Indus TMT more ductile and with higher tensile strength.",
-    image: "About us 3.png",
+    image: "About us 3.jpg",
     icon: Zap
   }
 ];
@@ -74,7 +73,7 @@ const TERRITORY_REGIONS = {
     { city: "Bengaluru Metropolitan Region", status: "Active Expansion" },
     { city: "Mysuru & South Karnataka", status: "Available" },
     { city: "Hubli-Dharwad & North Karnataka", status: "Available" },
-    { city: "Tumkur", status: "Active Search" },
+    { city: "Mangaluru & Coastal Zone", status: "Active Search" },
     { city: "Other Regions", status: "Available" }
   ],
   "Tamil Nadu": [
@@ -88,7 +87,7 @@ const TERRITORY_REGIONS = {
 
 const ELIGIBLE_LEFT = [
   { title: "Minimum Sales Volume", desc: "Average steel sales of at least 25 tons per month over the last 6 months." },
-  { title: "Business Status", desc: "Multi-brand TMT dealers and building material dealers are eligible to apply." },
+  { title: "Business Type", desc: "Multi-brand TMT dealers and building material dealers are eligible to apply." },
   { title: "Shop Size & Infrastructure", desc: "Minimum 600 sq. ft. shop with adequate storage and accessibility for heavy vehicles." },
   { title: "Stock Holding Capacity", desc: "Ability to maintain a minimum live stock of 20 tons with proper storage facilities." }
 ];
@@ -137,6 +136,8 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
   const [selectedArea, setSelectedArea] = useState('');
   const [isPincodeLoading, setIsPincodeLoading] = useState(false);
   const [pincodeError, setPincodeError] = useState('');
+  const [businessType, setBusinessType] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const fetchLocationData = async (pin) => {
     setIsPincodeLoading(true);
@@ -188,12 +189,62 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(event.target);
+
+    // --- WEB3FORMS INTEGRATION ---
+    // This securely sends the data to your email without a backend server
+    formData.append("access_key", "YOUR_WEB3FORMS_ACCESS_KEY_HERE"); 
+
+    // Adding the CC email so both addresses receive the lead
+    formData.append("cc", "enquiry@indussteels.com");
+
+    // Customizing the email subject for a professional look in your inbox
+    formData.append("subject", "URGENT: New Dealership Application - Indus TMT");
+    formData.append("from_name", "Indus Premium Acquisition Portal");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        console.error("Form submission error", data);
+        alert("There was an error submitting your application. Please try again.");
+      }
+    } catch (error) {
+      console.error("Submission failed", error);
+      alert("Network error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-<form id={id} onSubmit={handleSubmit} className="p-8 md:p-10 bg-white border border-slate-200/80 shadow-[0_30px_70px_rgba(0,0,0,0.06)] rounded-xl relative">
+  if (submitted) {
+    return (
+      <div className="p-12 text-center flex flex-col items-center justify-center h-full min-h-[450px] bg-white border border-slate-200 shadow-2xl rounded-xl relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#E31837]/5 to-transparent pointer-events-none"></div>
+        <div className="w-20 h-20 bg-[#E31837]/10 border border-[#E31837]/30 rounded-full flex items-center justify-center mb-6">
+          <Sparkles className="w-10 h-10 text-[#E31837]" />
+        </div>
+        <h3 className="text-3xl font-black text-slate-900 tracking-tight mb-4">Application Logged</h3>
+        <p className="text-slate-500 text-base leading-relaxed max-w-sm">
+          Your credentials have bypassed the queue. A Senior Commercial Director will initiate contact with your office within 12 hours.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form id={id} onSubmit={handleSubmit} className="p-8 md:p-10 bg-white border border-slate-200/80 shadow-[0_30px_70px_rgba(0,0,0,0.06)] rounded-xl relative">
       <div className="absolute -top-px left-10 right-10 h-[2px] bg-gradient-to-r from-transparent via-[#E31837] to-transparent"></div>
       
       <div className="mb-8 text-center md:text-left">
@@ -208,24 +259,24 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="relative">
-            <input required type="text" id={`${id}-name`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Full Name" />
+            <input required name="Applicant Name" type="text" id={`${id}-name`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Full Name" />
             <label htmlFor={`${id}-name`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">Full Name *</label>
           </div>
           <div className="relative">
-            <input required type="tel" id={`${id}-phone`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Mobile Number" />
+            <input required name="Mobile Contact" type="tel" id={`${id}-phone`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Mobile Number" />
             <label htmlFor={`${id}-phone`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">Mobile *</label>
           </div>
         </div>
 
         <div className="relative">
-          <input required type="text" id={`${id}-company`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Company Name" />
+          <input required name="Registered Company Name" type="text" id={`${id}-company`} className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded" placeholder="Company Name" />
           <label htmlFor={`${id}-company`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">Registered Firm Name *</label>
         </div>
 
         {/* Dynamic Location Lookup Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="relative">
-            <input required type="text" maxLength="6" id={`${id}-pincode`} value={pincode} onChange={handlePincodeChange} className={`peer w-full bg-slate-50 border ${pincodeError ? 'border-red-400' : 'border-slate-200'} focus:border-[#E31837] focus:bg-white p-3 pr-10 text-sm text-slate-900 outline-none transition-colors rounded`} placeholder="6-Digit Pincode" />
+            <input required name="Pincode" type="text" maxLength="6" id={`${id}-pincode`} value={pincode} onChange={handlePincodeChange} className={`peer w-full bg-slate-50 border ${pincodeError ? 'border-red-400' : 'border-slate-200'} focus:border-[#E31837] focus:bg-white p-3 pr-10 text-sm text-slate-900 outline-none transition-colors rounded`} placeholder="6-Digit Pincode" />
             <label htmlFor={`${id}-pincode`} className={`absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold ${pincodeError ? 'text-red-500' : 'text-slate-500'} peer-focus:text-[#E31837] transition-all`}>My Shop Pincode *</label>
             {isPincodeLoading && (
               <div className="absolute right-3 top-3.5 w-4 h-4 border-2 border-slate-300 border-t-[#E31837] rounded-full animate-spin"></div>
@@ -238,7 +289,7 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
           
           <div className="relative">
              {areas.length > 0 ? (
-                <select required value={selectedArea} onChange={(e) => setSelectedArea(e.target.value)} className="peer w-full bg-emerald-50/50 border border-emerald-200 focus:border-emerald-500 focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none cursor-pointer">
+                <select required name="Shop Area" value={selectedArea} onChange={(e) => setSelectedArea(e.target.value)} className="peer w-full bg-emerald-50/50 border border-emerald-200 focus:border-emerald-500 focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none cursor-pointer">
                   {areas.map((area, index) => (
                     <option key={index} value={area}>{area}</option>
                   ))}
@@ -250,103 +301,96 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div className="relative">
-            <input required type="text" readOnly value={city} id={`${id}-city`} className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-600 outline-none rounded" placeholder="City" />
+            <input required name="City" type="text" readOnly value={city} id={`${id}-city`} className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-600 outline-none rounded" placeholder="City" />
             <label htmlFor={`${id}-city`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">City (Auto) *</label>
           </div>
           <div className="relative">
-            <input required type="text" readOnly value={state} id={`${id}-state`} className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-600 outline-none rounded" placeholder="State" />
+            <input required name="State" type="text" readOnly value={state} id={`${id}-state`} className="peer w-full bg-slate-100 border border-slate-200 p-3 text-sm text-slate-600 outline-none rounded" placeholder="State" />
             <label htmlFor={`${id}-state`} className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all">State (Auto) *</label>
           </div>
         </div>
-    <div className="space-y-6">
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div className="relative">
-      <select
-        name="businessType"
-        required
-        value={businessType}
-        onChange={(e) => setBusinessType(e.target.value)}
-        className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none"
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="relative">
+            <select
+              name="Current Business Status"
+              required
+              value={businessType}
+              onChange={(e) => setBusinessType(e.target.value)}
+              className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none"
+            >
+              <option value="" disabled hidden>Select Business Type</option>
+              <option value="Already selling steel">I already sell steel in my shop</option>
+              <option value="New to selling steel">I am newly wanting to sell steel in my shop</option>
+            </select>
+            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">
+              Business Type *
+            </label>
+          </div>
+
+          <div className="relative">
+            <input
+              type="text"
+              name="GST Number"
+              id={`${id}-gst`}
+              className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded"
+              placeholder="GST Number (Optional)"
+            />
+            <label
+              htmlFor={`${id}-gst`}
+              className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all"
+            >
+              GST Number
+            </label>
+          </div>
+        </div>
+
+        {businessType === "Already selling steel" && (
+          <div className="relative animate-in fade-in slide-in-from-top-2 duration-300">
+            <select
+              required
+              name="Average Monthly Steel Sales"
+              defaultValue=""
+              className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none"
+            >
+              <option value="" disabled hidden>Select Average Monthly Steel Sales</option>
+              <option value="0-25 Tons">0 - 25 Tons</option>
+              <option value="25-50 Tons">25 - 50 Tons</option>
+              <option value="50-100 Tons">50 - 100 Tons</option>
+              <option value="100-500 Tons">100 - 500 Tons</option>
+              <option value="500+ Tons">500+ Tons</option>
+            </select>
+            <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">
+              Avg. Monthly Sales *
+            </label>
+          </div>
+        )}
+      </div>
+
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className={`w-full mt-8 bg-[#E31837] hover:bg-[#c6112d] active:scale-[0.98] text-white font-extrabold py-4 px-6 transition-all duration-300 flex items-center justify-between group rounded-lg shadow-lg shadow-red-500/10 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
       >
-        <option value="" disabled hidden>
-          Select Business Status
-        </option>
-        <option value="existing">
-          I already sell steel in my shop
-        </option>
-        <option value="new">
-          I am newly wanting to sell steel in my shop
-        </option>
-      </select>
+        <span className="tracking-widest uppercase text-xs">
+          {isSubmitting ? 'Logging Application...' : 'Become an Indus TMT Dealer Now'}
+        </span>
+        {isSubmitting ? (
+           <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+        ) : (
+           <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+        )}
+      </button>
 
-      <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">
-        Business Status *
-      </label>
-    </div>
-
-    <div className="relative">
-      <input
-        type="text"
-        id={`${id}-gst`}
-        className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded"
-        placeholder="GST Number (Optional)"
-      />
-      <label
-        htmlFor={`${id}-gst`}
-        className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500 peer-focus:text-[#E31837] transition-all"
-      >
-        GST Number
-      </label>
-  </div>
-
-  {businessType === "existing" && (
-    <div className="relative animate-in fade-in slide-in-from-top-2 duration-300">
-      <select
-        required
-        defaultValue=""
-        className="peer w-full bg-slate-50 border border-slate-200 focus:border-[#E31837] focus:bg-white p-3 text-sm text-slate-900 outline-none transition-colors rounded appearance-none"
-      >
-        <option value="" disabled hidden>
-          Select Average Monthly Steel Sales
-        </option>
-        <option value="0-25">0 - 25 Tons</option>
-        <option value="25-50">25 - 50 Tons</option>
-        <option value="50-100">50 - 100 Tons</option>
-        <option value="100-500">100 - 500 Tons</option>
-        <option value="500+">500+ Tons</option>
-      </select>
-
-      <label className="absolute left-3 -top-2.5 bg-white px-1 text-[11px] font-bold text-slate-500">
-        Avg. Monthly Sales *
-      </label>
-    </div>
-  )}
-
-  <button
-    type="submit"
-    className="w-full mt-8 bg-[#E31837] hover:bg-[#c6112d] active:scale-[0.98] text-white font-extrabold py-4 px-6 transition-all duration-300 flex items-center justify-between group rounded-lg shadow-lg shadow-red-500/10"
-  >
-    <span className="tracking-widest uppercase text-xs">
-      Become an Indus TMT Dealer Now
-    </span>
-    <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-  </button>
-
-  <div className="mt-6 flex items-center justify-between text-xs text-slate-400">
-    <span className="flex items-center">
-      <ShieldCheck className="w-4 h-4 mr-1.5 text-emerald-600" />
-      Secure Corporate Link
-    </span>
-    <span>ISO 27001 Compliant</span>
-  </div>
-</div>
       <div className="mt-6 flex items-center justify-between text-xs text-slate-400">
-        <span className="flex items-center"><ShieldCheck className="w-4 h-4 mr-1.5 text-emerald-600" /> Secure Corporate Link</span>
+        <span className="flex items-center">
+          <ShieldCheck className="w-4 h-4 mr-1.5 text-emerald-600" />
+          Secure Corporate Link
+        </span>
         <span>ISO 27001 Compliant</span>
       </div>
-        </div>
     </form>
   );
 };
@@ -395,15 +439,6 @@ export default function App() {
     document.getElementById('application-form-section')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-const triggerBrochureDownload = () => {
-  const link = document.createElement('a');
-  link.href = '/Indus-Catalog.pdf';
-  link.download = 'Indus-Catalog.pdf';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
-  
   return (
     <div className="font-sans text-slate-700 bg-white selection:bg-[#E31837] selection:text-white antialiased overflow-x-hidden">
       
@@ -424,7 +459,7 @@ const triggerBrochureDownload = () => {
           {/* Logo Aligned Center vertically with Nav */}
           <div className="flex items-center">
             <img 
-              src="Indus-logo.svg" 
+              src="logo.png" 
               alt="Indus TMT Logo" 
               className="h-14 md:h-20 lg:h-24 w-auto object-contain" 
             />
@@ -486,15 +521,15 @@ const triggerBrochureDownload = () => {
               </h1>
               
               <p className="text-slate-500 text-lg md:text-xl max-w-xl leading-relaxed mb-10 font-light">
-                Expand your business with one of South India's trusted TMT steel brands. Offer premium-grade Fe-550D TMT bars preferred by builders, contractors, and infrastructure projects across the region.
+                Become the Authorized Indus TMT Distribution Partner. Tap into South India's high-velocity infrastructure boom with verified, premium-grade steel and protected territorial allocations.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <button onClick={scrollToForm} className="bg-[#E31837] hover:bg-red-700 text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center group rounded shadow-lg shadow-red-500/10">
-                  Join the Indus Dealer Network <ArrowRight className="ml-3 w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                  Secure Partnership Slot <ArrowRight className="ml-3 w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </button>
                 <a href="tel:+919242777777" className="bg-[#0F172A] hover:bg-[#1e293b] text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center rounded shadow-lg">
-                  <Phone className="w-4 h-4 mr-2" /> Speak with a Dealer Expert
+                  <Phone className="w-4 h-4 mr-2" /> Talk to Our Executive
                 </a>
               </div>
             </div>
@@ -601,7 +636,7 @@ const triggerBrochureDownload = () => {
         </div>
       </section>
 
-      {/* --- ABOUT US / MANUFACTURING STAGES (REPLACES OLD MASTERCLASS) --- */}
+      {/* --- ABOUT US / MANUFACTURING STAGES --- */}
       <section id="about" className="py-28 border-t border-slate-100 bg-[#FAFAFA] relative">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           
@@ -615,9 +650,12 @@ const triggerBrochureDownload = () => {
             <p className="text-slate-500 text-lg leading-relaxed font-light mb-8">
               We began our journey in 1996 with a vision to convert the blueprint of dreams into structures. Our state-of-art manufacturing unit at Hosur near Attibelle(Kn) well equipped with advanced computer controlled, mechanical & automated machinery combined with our innovations, commitment & reliability has delivered consistent & best quality steel much above BIS. We have been considered as No.1 brand in Karnataka by Individual building owners, bar benders, mason, contractors, structural engineers, architects & dealers as they are very happy with INDUS 555-D TMT.
             </p>
-            <button onClick={triggerBrochureDownload} className="inline-flex items-center text-slate-900 font-bold tracking-widest text-xs uppercase hover:text-[#E31837] transition-all group border border-slate-300 bg-white px-6 py-3.5 rounded shadow-sm">
-              <Download className="w-4 h-4 mr-2" /> Download Corporate Profile Document
-            </button>
+            
+            <a href="Indus-Catalog.pdf" download="" className="inline-flex items-center border border-slate-300 bg-white px-6 py-3.5 rounded shadow-sm text-slate-900 font-bold tracking-widest text-xs uppercase hover:text-[#E31837] transition-colors group justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download w-4 h-4 mr-2" aria-hidden="true"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg> 
+              Download Corporate Profile Document 
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
           </div>
 
           <div className="mt-20">
@@ -765,7 +803,7 @@ const triggerBrochureDownload = () => {
             Built on Trust. Driven by Performance.
           </h2>
           <h3 className="text-2xl md:text-4xl font-black text-slate-900 mb-4">Focused on Dealer Success</h3>
-          <p className="text-lg font-bold text-[#E31837] tracking-widest uppercase mb-12">"INDUS STEEL INSIDE, PEACE OF MIND OUTSIDE"</p>
+          <p className="text-lg font-bold text-[#E31837] tracking-widest uppercase mb-12">INDUS STEEL INSIDE, PEACE OF MIND OUTSIDE</p>
 
           <div className="pt-12 border-t border-slate-150 flex flex-wrap justify-center gap-6">
              <div className="px-6 py-3 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm tracking-widest uppercase font-black shadow-sm flex items-center gap-2">
@@ -810,6 +848,29 @@ const triggerBrochureDownload = () => {
         </div>
       </section>
 
+      {/* --- THE APEX CALL TO ACTION --- */}
+      <section className="py-28 bg-white relative overflow-hidden border-t border-slate-200">
+        <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-[#E31837] to-transparent"></div>
+
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            <div className="flex flex-col lg:sticky lg:top-32 lg:pt-8">
+              <span className="text-[#E31837] text-xs font-bold tracking-[0.25em] uppercase mb-4 block self-start">Corporate Alliances</span>
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight tracking-tight mb-6">
+                Acquire Exclusive Territorial Rights
+              </h2>
+              <p className="text-slate-500 text-base font-light leading-relaxed mb-8">
+                Submit verified organizational parameters and corporate credentials to request the localized market distribution prospectus.
+              </p>
+            </div>
+
+            <div className="w-full">
+              <LuxuryLeadForm buttonText="Initiate Registration" id="bottom-prospectus" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* --- FOOTER --- */}
       <footer className="bg-slate-50 pt-24 pb-12 border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -817,7 +878,7 @@ const triggerBrochureDownload = () => {
             
             <div className="md:col-span-7 lg:col-span-8">
               <div className="flex items-center gap-3 mb-6">
-                <img src="Indus-logo.svg" alt="Indus TMT Logo" className="h-16 lg:h-20 w-auto object-contain" />
+                <img src="logo.png" alt="Indus TMT Logo" className="h-16 lg:h-20 w-auto object-contain" />
               </div>
               <p className="text-slate-500 font-light text-sm leading-relaxed max-w-sm mb-8">
                 Pioneering regional structural reinforcement structures since 1996. We fabricate the high ductility steel that anchors commercial futures.
@@ -830,8 +891,12 @@ const triggerBrochureDownload = () => {
                 <li>Industrial Estate Cluster</li>
                 <li>Bangalore, Karnataka</li>
                 <li>India - 560001</li>
-                <li className="pt-4 text-slate-900 font-black tracking-normal lowercase">enquiry@indussteels.com</li>
-                <li className="text-slate-900 font-black tracking-normal lowercase">+91 9242777777</li>
+                <li className="pt-4 text-slate-900 font-black tracking-normal lowercase">
+                  <a href="mailto:enquiry@indussteels.com" className="hover:text-[#E31837] transition-colors">enquiry@indussteels.com</a>
+                </li>
+                <li className="text-slate-900 font-black tracking-normal lowercase">
+                  <a href="tel:+919242777777" className="hover:text-[#E31837] transition-colors">+91 9242777777</a>
+                </li>
               </ul>
             </div>
 
