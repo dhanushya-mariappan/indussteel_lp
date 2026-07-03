@@ -189,20 +189,15 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
     }
   };
 
-  const handleSubmit = async (event) => {
+ const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
 
     const formData = new FormData(event.target);
-
-    // --- WEB3FORMS INTEGRATION ---
-    // This securely sends the data to your email without a backend server
+    // --- IMPORTANT: REPLACE WITH YOUR REAL KEY FROM WEB3FORMS ---
     formData.append("access_key", "YOUR_WEB3FORMS_ACCESS_KEY_HERE"); 
-
-    // Adding the CC email so both addresses receive the lead
     formData.append("cc", "enquiry@indussteels.com");
-
-    // Customizing the email subject for a professional look in your inbox
+    formData.append("cc", "dhanushya@o3mdm.com");
     formData.append("subject", "URGENT: New Dealership Application - Indus TMT");
     formData.append("from_name", "Indus Premium Acquisition Portal");
 
@@ -211,17 +206,13 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
         method: "POST",
         body: formData
       });
-
       const data = await response.json();
-
       if (data.success) {
         setSubmitted(true);
       } else {
-        console.error("Form submission error", data);
-        alert("There was an error submitting your application. Please try again.");
+        alert("There was an error submitting your application. Please check your Access Key.");
       }
     } catch (error) {
-      console.error("Submission failed", error);
       alert("Network error. Please try again.");
     } finally {
       setIsSubmitting(false);
