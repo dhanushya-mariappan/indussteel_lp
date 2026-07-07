@@ -511,10 +511,10 @@ export default function App() {
               
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <button onClick={scrollToForm} className="bg-[#E31837] hover:bg-red-700 text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center group rounded shadow-lg shadow-red-500/10">
-                  Secure Partnership Slot <ArrowRight className="ml-3 w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                  Join the Indus Dealer Network <ArrowRight className="ml-3 w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </button>
                 <a href="tel:+919242777777" className="bg-[#0F172A] hover:bg-[#1e293b] text-white font-black uppercase tracking-widest text-xs px-8 py-4 transition-all duration-300 flex items-center justify-center rounded shadow-lg">
-                  <Phone className="w-4 h-4 mr-2" /> Talk to Our Executive
+                  <Phone className="w-4 h-4 mr-2" /> Speak with a Dealer Expert
                 </a>
               </div>
             </div>
@@ -788,7 +788,7 @@ export default function App() {
             Built on Trust. Driven by Performance.
           </h2>
           <h3 className="text-2xl md:text-4xl font-black text-slate-900 mb-4">Focused on Dealer Success</h3>
-          <p className="text-lg font-bold text-[#E31837] tracking-widest uppercase mb-12">INDUS STEEL INSIDE, PEACE OF MIND OUTSIDE</p>
+          <p className="text-lg font-bold text-[#E31837] tracking-widest uppercase mb-12">"INDUS STEEL INSIDE, PEACE OF MIND OUTSIDE"</p>
 
           <div className="pt-12 border-t border-slate-150 flex flex-wrap justify-center gap-6">
              <div className="px-6 py-3 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm tracking-widest uppercase font-black shadow-sm flex items-center gap-2">
