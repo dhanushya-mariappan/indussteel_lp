@@ -73,7 +73,7 @@ const TERRITORY_REGIONS = {
     { city: "Bengaluru Metropolitan Region", status: "Active Expansion" },
     { city: "Mysuru & South Karnataka", status: "Available" },
     { city: "Hubli-Dharwad & North Karnataka", status: "Available" },
-    { city: "Mangaluru & Coastal Zone", status: "Active Search" },
+    { city: "Tumkur", status: "Active Search" },
     { city: "Other Regions", status: "Available" }
   ],
   "Tamil Nadu": [
