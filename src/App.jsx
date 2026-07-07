@@ -506,7 +506,7 @@ export default function App() {
               </h1>
               
               <p className="text-slate-500 text-lg md:text-xl max-w-xl leading-relaxed mb-10 font-light">
-                Become the Authorized Indus TMT Distribution Partner. Tap into South India's high-velocity infrastructure boom with verified, premium-grade steel and protected territorial allocations.
+                Expand your business with one of South India's trusted TMT steel brands. Offer premium-grade Fe-550D TMT bars preferred by builders, contractors, and infrastructure projects across the region.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
