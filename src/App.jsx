@@ -49,21 +49,21 @@ const MANUFACTURING_STAGES = [
     id: 0,
     title: "Raw Materials to Molten Iron",
     desc: "Selective low sulphur, low phosphorus sponge iron pellets and recycled green steel is used to produce molten steel by adding quality micro elements in stage one.",
-    image: "About us 1.jpg",
+    image: "About us 1.png",
     icon: HardHat
   },
   {
     id: 1,
     title: "Molten Iron to Primary Steel",
     desc: "This molten steel is casted into quality Billets through South India's first BULLET CASTER and rolled in the state of art rolling mill into rods of required diameters.",
-    image: "About us 2.jpg",
+    image: "About us 2.png",
     icon: Factory
   },
   {
     id: 2,
     title: "Thermo Mechanical Treatment",
     desc: "The hot rolled bars released from rolling mill are passed through a technological innovative tmt box with a combination of pipe and nozzle system. It cools down the outer core rapidly and self tempering happens where the heat from the core passes to the bar surface to harden the TMT bar outer core. Finally atmospheric cooling ensure the austenitic core turns as ferrite-pearlite structure. This make Indus TMT more ductile and with higher tensile strength.",
-    image: "About us 3.jpg",
+    image: "About us 3.png",
     icon: Zap
   }
 ];
@@ -194,18 +194,12 @@ const LuxuryLeadForm = ({ buttonText = "Apply for Dealership", id = "lead-form" 
     setIsSubmitting(true);
 
     const formData = new FormData(event.target);
-    // --- IMPORTANT: REPLACE WITH YOUR REAL KEY FROM WEB3FORMS ---
-    formData.append("access_key", "YOUR_WEB3FORMS_ACCESS_KEY_HERE"); 
-    formData.append("cc", "enquiry@indussteels.com");
-    formData.append("cc", "dhanushya@o3mdm.com");
-    formData.append("subject", "URGENT: New Dealership Application - Indus TMT");
-    formData.append("from_name", "Indus Premium Acquisition Portal");
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData
-      });
+const response = await fetch("/sendmail.php", {
+  method: "POST",
+  body: formData
+});
       const data = await response.json();
       if (data.success) {
         setSubmitted(true);
@@ -450,7 +444,7 @@ export default function App() {
           {/* Logo Aligned Center vertically with Nav */}
           <div className="flex items-center">
             <img 
-              src="logo.png" 
+              src="Indus-logo.svg" 
               alt="Indus TMT Logo" 
               className="h-14 md:h-20 lg:h-24 w-auto object-contain" 
             />
@@ -839,29 +833,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* --- THE APEX CALL TO ACTION --- */}
-      <section className="py-28 bg-white relative overflow-hidden border-t border-slate-200">
-        <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-[#E31837] to-transparent"></div>
-
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-            <div className="flex flex-col lg:sticky lg:top-32 lg:pt-8">
-              <span className="text-[#E31837] text-xs font-bold tracking-[0.25em] uppercase mb-4 block self-start">Corporate Alliances</span>
-              <h2 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight tracking-tight mb-6">
-                Acquire Exclusive Territorial Rights
-              </h2>
-              <p className="text-slate-500 text-base font-light leading-relaxed mb-8">
-                Submit verified organizational parameters and corporate credentials to request the localized market distribution prospectus.
-              </p>
-            </div>
-
-            <div className="w-full">
-              <LuxuryLeadForm buttonText="Initiate Registration" id="bottom-prospectus" />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* --- FOOTER --- */}
       <footer className="bg-slate-50 pt-24 pb-12 border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -869,7 +840,7 @@ export default function App() {
             
             <div className="md:col-span-7 lg:col-span-8">
               <div className="flex items-center gap-3 mb-6">
-                <img src="logo.png" alt="Indus TMT Logo" className="h-16 lg:h-20 w-auto object-contain" />
+                <img src="Indus-logo.svg" alt="Indus TMT Logo" className="h-16 lg:h-20 w-auto object-contain" />
               </div>
               <p className="text-slate-500 font-light text-sm leading-relaxed max-w-sm mb-8">
                 Pioneering regional structural reinforcement structures since 1996. We fabricate the high ductility steel that anchors commercial futures.
